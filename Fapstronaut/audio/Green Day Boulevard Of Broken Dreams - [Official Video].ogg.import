@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Green Day Boulevard Of Broken Dreams - [Official Video].ogg-e137502bb56fc181e1f7671a74e6e8a3.oggstr"
+
+[deps]
+
+source_file="res://audio/Green Day Boulevard Of Broken Dreams - [Official Video].ogg"
+dest_files=[ "res://.import/Green Day Boulevard Of Broken Dreams - [Official Video].ogg-e137502bb56fc181e1f7671a74e6e8a3.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0
