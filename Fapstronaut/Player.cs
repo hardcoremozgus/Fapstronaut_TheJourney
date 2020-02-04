@@ -43,17 +43,12 @@ public class Player : KinematicBody2D
                 velocity = jumpPower;
             }
 
-               
-
         }
         else
         {
             animationPlayer.PlaybackSpeed = 0.0f;
             velocity += gravity * delta;
         }
-
-        
-        GD.Print(velocity);
 
     }
 
