@@ -46,4 +46,4 @@ autoplay = true
 [node name="InGameUI" parent="." instance=ExtResource( 5 )]
 
 [node name="EnemyCoomer" parent="." instance=ExtResource( 4 )]
-position = Vector2( 1550.27, 318.005 )
+position = Vector2( 1311.91, 294.627 )
