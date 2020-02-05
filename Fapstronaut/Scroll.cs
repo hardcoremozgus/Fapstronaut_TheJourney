@@ -20,6 +20,7 @@ public class Scroll : Node2D
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.
  public override void _Process(float delta)
  {
+    speed = (GetParent() as GameLogic).scrollSpeed * (GetParent() as GameLogic).speedMultiplier; 
     float magnitude = speed * delta; 
     accumulatedWidth += -magnitude; 
     childNode.Translate(new Vector2(magnitude, 0)); 

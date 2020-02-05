@@ -7,6 +7,8 @@ public class GameLogic : Node2D
     // private int a = 2;
     // private string b = "text";
     public float scrollSpeed = -200f;
+
+    public float speedMultiplier = 1f; 
     // Called when the node enters the scene tree for the first time.
 
     TextureProgress urgeBar; 
@@ -34,8 +36,11 @@ public void DoDamageToEntity(float damage, Node entity)
             // TODO: death
         }
     }
+}
 
-
+public float GetCurrentSpeed()
+{
+    return scrollSpeed * speedMultiplier; 
 }
 
 }
