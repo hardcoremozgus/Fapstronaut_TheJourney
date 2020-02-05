@@ -1,0 +1,97 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://sprites/UI/bar/border.png" type="Texture" id=1]
+[ext_resource path="res://sprites/UI/bar/progress.png" type="Texture" id=2]
+[ext_resource path="res://sprites/UI/bar/back.png" type="Texture" id=3]
+[ext_resource path="res://sprites/UI/bar/Helper.png" type="Texture" id=4]
+
+[node name="InGameUI" type="Control"]
+margin_left = -0.291992
+margin_right = 1023.71
+margin_bottom = 600.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="UrgeBar" type="Node2D" parent="."]
+position = Vector2( 1.80499, -24.3675 )
+z_index = -40
+
+[node name="Bar" type="TextureProgress" parent="UrgeBar"]
+margin_left = 44.4492
+margin_top = 45.1127
+margin_right = 226.449
+margin_bottom = 66.1127
+texture_under = ExtResource( 3 )
+texture_over = ExtResource( 1 )
+texture_progress = ExtResource( 2 )
+tint_progress = Color( 0.819608, 0.427451, 0.0431373, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Hint" type="Node" parent="UrgeBar"]
+
+[node name="Label" type="Label" parent="UrgeBar/Hint"]
+anchor_left = 0.00176269
+anchor_top = -0.0406126
+anchor_right = 0.00176269
+anchor_bottom = -0.0406126
+margin_left = 13.2112
+margin_top = 48.704
+margin_right = 53.2112
+margin_bottom = 62.704
+rect_pivot_offset = Vector2( 110.492, 6.20871 )
+custom_colors/font_color = Color( 0.819608, 0.427451, 0.0431373, 1 )
+text = "UR"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="UrgeBar/Hint"]
+position = Vector2( 125.508, 30.5452 )
+z_index = -40
+texture = ExtResource( 4 )
+offset = Vector2( -101.688, 0.30434 )
+
+[node name="BrainFogBar" type="Node2D" parent="."]
+position = Vector2( 1.80499, 19.855 )
+z_index = -40
+
+[node name="Bar" type="TextureProgress" parent="BrainFogBar"]
+margin_left = 44.4492
+margin_top = 45.1127
+margin_right = 226.449
+margin_bottom = 66.1127
+value = 100.0
+texture_under = ExtResource( 3 )
+texture_over = ExtResource( 1 )
+texture_progress = ExtResource( 2 )
+tint_progress = Color( 0.458824, 0.105882, 0.839216, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Hint" type="Node" parent="BrainFogBar"]
+
+[node name="Label" type="Label" parent="BrainFogBar/Hint"]
+anchor_left = 0.00176269
+anchor_top = 0.0330917
+anchor_right = 0.00176269
+anchor_bottom = 0.0330917
+margin_left = 13.2112
+margin_top = 48.704
+margin_right = 53.2112
+margin_bottom = 62.704
+rect_pivot_offset = Vector2( 110.492, 6.20871 )
+custom_colors/font_color = Color( 0.458824, 0.105882, 0.839216, 1 )
+text = "BF"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="BrainFogBar/Hint"]
+position = Vector2( 125.508, 74.7677 )
+z_index = -40
+texture = ExtResource( 4 )
+offset = Vector2( -101.688, 0.30434 )

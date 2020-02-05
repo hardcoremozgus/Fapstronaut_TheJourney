@@ -6,7 +6,6 @@ public class EnemyCoomer : Node2D
     // Declare member variables here. Examples:
     private float armSpeed = -10f; 
     private Vector2 speed; 
-
     private Sprite arm; 
 
     // Called when the node enters the scene tree for the first time.
@@ -21,6 +20,19 @@ public class EnemyCoomer : Node2D
  {
      arm.Rotate(armSpeed * delta); 
      Translate(speed * delta); 
+    
+
  }
+
+
+  public void ArmCollision(Node body)
+  {
+      GD.Print(body.Name); 
+      if(body.Name == "Player")
+      {
+          (GetParent() as GameLogic).DoDamageToEntity(20, body);
+      }
+      
+  }
 
 }

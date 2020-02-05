@@ -1,24 +1,11 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://sprites/Background.png" type="Texture" id=1]
 [ext_resource path="res://Scroll.cs" type="Script" id=2]
 [ext_resource path="res://Player.tscn" type="PackedScene" id=3]
-[ext_resource path="res://sprites/virg/virg_0001_rfore.png" type="Texture" id=4]
-[ext_resource path="res://sprites/virg/virg_0003_torso.png" type="Texture" id=5]
-[ext_resource path="res://sprites/virg/virg_0011_lfore.png" type="Texture" id=6]
-[ext_resource path="res://sprites/virg/virg_0000_rarm.png" type="Texture" id=7]
-[ext_resource path="res://sprites/virg/virg_0013_head.png" type="Texture" id=8]
-[ext_resource path="res://sprites/virg/virg_0010_larm.png" type="Texture" id=9]
-[ext_resource path="res://sprites/virg/virg_0002_rhand.png" type="Texture" id=10]
-[ext_resource path="res://sprites/virg/virg_0004_rleg.png" type="Texture" id=11]
-[ext_resource path="res://sprites/virg/virg_0012_lhand.png" type="Texture" id=12]
-[ext_resource path="res://sprites/virg/virg_0006_rfoot.png" type="Texture" id=13]
-[ext_resource path="res://sprites/virg/virg_0005_rcalf.png" type="Texture" id=14]
-[ext_resource path="res://sprites/virg/virg_0007_lleg.png" type="Texture" id=15]
-[ext_resource path="res://sprites/virg/virg_0008_lcalf.png" type="Texture" id=16]
-[ext_resource path="res://sprites/virg/virg_0009_lfoot.png" type="Texture" id=17]
+[ext_resource path="res://EnemyCoomer.tscn" type="PackedScene" id=4]
+[ext_resource path="res://InGameUI.tscn" type="PackedScene" id=5]
 [ext_resource path="res://audio/Green Day Boulevard Of Broken Dreams - [Official Video].ogg" type="AudioStream" id=18]
-[ext_resource path="res://EnemyCoomer.tscn" type="PackedScene" id=19]
 [ext_resource path="res://GameLogic.cs" type="Script" id=20]
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -48,100 +35,6 @@ scale = Vector2( 10000, 1 )
 position = Vector2( 1021.22, 560 )
 shape = SubResource( 1 )
 
-[node name="PlayerIdleRef" type="KinematicBody2D" parent="Background"]
-visible = false
-position = Vector2( 100, 400 )
-scale = Vector2( 0.25, 0.25 )
-
-[node name="Torso" type="Sprite" parent="Background/PlayerIdleRef"]
-position = Vector2( 337.059, -114.933 )
-texture = ExtResource( 5 )
-
-[node name="Head" type="Sprite" parent="Background/PlayerIdleRef/Torso"]
-position = Vector2( 17.941, -148.327 )
-texture = ExtResource( 8 )
-offset = Vector2( 46.2476, -46.0486 )
-
-[node name="R_Arm" type="Sprite" parent="Background/PlayerIdleRef/Torso"]
-position = Vector2( 0.530731, -119.94 )
-rotation = -0.0953993
-z_index = 2
-texture = ExtResource( 7 )
-offset = Vector2( -16.0432, 49.0256 )
-
-[node name="R_Forearm" type="Sprite" parent="Background/PlayerIdleRef/Torso/R_Arm"]
-position = Vector2( -42.1683, 127.835 )
-rotation = -0.0984432
-z_index = 2
-texture = ExtResource( 4 )
-offset = Vector2( 2.10526, 56.9717 )
-
-[node name="R_Hand" type="Sprite" parent="Background/PlayerIdleRef/Torso/R_Arm/R_Forearm"]
-position = Vector2( -15.6288, 141.503 )
-z_index = 2
-texture = ExtResource( 10 )
-offset = Vector2( -2.16312, 16.0179 )
-
-[node name="L_Arm" type="Sprite" parent="Background/PlayerIdleRef/Torso"]
-position = Vector2( 29.7247, -108.069 )
-rotation = 0.150138
-texture = ExtResource( 9 )
-offset = Vector2( 11.7592, 58.6671 )
-
-[node name="L_Forearm" type="Sprite" parent="Background/PlayerIdleRef/Torso/L_Arm"]
-position = Vector2( 19.216, 143.002 )
-rotation = -0.203102
-z_index = -2
-texture = ExtResource( 6 )
-offset = Vector2( 18.7313, 52.0504 )
-
-[node name="L_Hand" type="Sprite" parent="Background/PlayerIdleRef/Torso/L_Arm/L_Forearm"]
-position = Vector2( 30.2089, 117.971 )
-z_index = -2
-texture = ExtResource( 12 )
-offset = Vector2( 5.79111, 16.0286 )
-
-[node name="R_Leg" type="Sprite" parent="Background/PlayerIdleRef/Torso"]
-position = Vector2( -8.34888, 172.398 )
-z_index = 1
-texture = ExtResource( 11 )
-offset = Vector2( 4.63824, 106.573 )
-
-[node name="R_Calf" type="Sprite" parent="Background/PlayerIdleRef/Torso/R_Leg"]
-position = Vector2( -13.4768, 221.44 )
-rotation = -0.867221
-z_index = 1
-texture = ExtResource( 14 )
-offset = Vector2( -59.3972, 63.3947 )
-
-[node name="R_Foot" type="Sprite" parent="Background/PlayerIdleRef/Torso/R_Leg/R_Calf"]
-position = Vector2( -149.616, 117.934 )
-rotation = 0.19582
-z_index = 1
-texture = ExtResource( 13 )
-offset = Vector2( 11.6008, 54.3763 )
-
-[node name="L_Leg" type="Sprite" parent="Background/PlayerIdleRef/Torso"]
-position = Vector2( 18.0193, 184.059 )
-rotation = 0.432368
-z_index = -1
-texture = ExtResource( 15 )
-offset = Vector2( 49.0159, 93.2683 )
-
-[node name="L_Calf" type="Sprite" parent="Background/PlayerIdleRef/Torso/L_Leg"]
-position = Vector2( 95.3918, 184.852 )
-rotation = -0.240214
-z_index = -1
-texture = ExtResource( 16 )
-offset = Vector2( 31.542, 86.4686 )
-
-[node name="L_Foot" type="Sprite" parent="Background/PlayerIdleRef/Torso/L_Leg/L_Calf"]
-position = Vector2( 54.4088, 173.496 )
-rotation = 0.0495616
-z_index = -1
-texture = ExtResource( 17 )
-offset = Vector2( 45.8293, 22.6846 )
-
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 510, 300 )
 current = true
@@ -150,5 +43,7 @@ current = true
 stream = ExtResource( 18 )
 autoplay = true
 
-[node name="TestEnemyCoomer" parent="." instance=ExtResource( 19 )]
-position = Vector2( 1500, 319.56 )
+[node name="InGameUI" parent="." instance=ExtResource( 5 )]
+
+[node name="EnemyCoomer" parent="." instance=ExtResource( 4 )]
+position = Vector2( 1550.27, 318.005 )

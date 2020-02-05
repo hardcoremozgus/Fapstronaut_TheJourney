@@ -8,8 +8,11 @@ public class GameLogic : Node2D
     // private string b = "text";
     public float scrollSpeed = -200f;
     // Called when the node enters the scene tree for the first time.
+
+    TextureProgress urgeBar; 
     public override void _Ready()
     {
+         urgeBar = GetChild(4).GetChild(0).GetChild(0) as TextureProgress; 
         
     }
 
@@ -18,4 +21,21 @@ public class GameLogic : Node2D
 //  {
 //      
 //  }
+
+public void DoDamageToEntity(float damage, Node entity)
+{
+
+    if(entity.Name == "Player")
+    {
+        urgeBar.Value += damage; 
+        GD.Print("Player damaged!! Urges are: " + ((entity as Player).urges = urgeBar.Value));
+        if(urgeBar.Value >= 100)
+        {
+            // TODO: death
+        }
+    }
+
+
+}
+
 }
