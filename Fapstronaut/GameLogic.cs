@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-
+public enum EnemyTypes {COOMER, SOCIALMEDIA, MAXTYPES};
 public class GameLogic : Node2D
 {
     // Declare member variables here. Examples:
@@ -9,19 +9,21 @@ public class GameLogic : Node2D
     // private string b = "text";
     public float scrollSpeed = -200f;
 
+    public float PI = 3.14159f; 
+
     public float speedMultiplier = 1f; 
     // Called when the node enters the scene tree for the first time.
 
     TextureProgress urgeBar; 
     Tuple<String,float,float>[] enemySpawnTimers; // scene string name (enemy), spawntime, currenttime
 
-    public uint enemyTypesCount = 1; // TODO: replace this with an enum
+    public EnemyTypes enemyTypes; 
     public override void _Ready()
     {
          urgeBar = GetChild(4).GetChild(0).GetChild(0) as TextureProgress; 
-         enemySpawnTimers = new Tuple<String,float,float>[enemyTypesCount]; // TODO: replace this with an enum
-         enemySpawnTimers[0] = Tuple.Create("res://EnemyCoomer.tscn", 4f, 0f); 
-        
+         enemySpawnTimers = new Tuple<String,float,float>[(int)EnemyTypes.MAXTYPES];  
+         enemySpawnTimers[0] = Tuple.Create("res://EnemyCoomer.tscn", 20f, 0f); 
+         enemySpawnTimers[1] = Tuple.Create("res://EnemySocialMedia.tscn", 5f, 0f); 
     }
 
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.

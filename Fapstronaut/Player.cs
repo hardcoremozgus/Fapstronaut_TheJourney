@@ -13,18 +13,13 @@ public class Player : KinematicBody2D
     Vector2 floor = new Vector2(0, -1);
     public double urges = 0f;
     public float brainFog = 100f;
-
     public float currentslideTime = 0f, slideTime = 1f; 
-
     public float urgeHeal = 5f;  // TODO: decrease brain fog with time, and thus upgrade this at least
-
     private TextureProgress urgeBar;
-
     public bool sliding = false;
-
     float slideHeight = 215; 
-
     private GameLogic gameLogic; 
+    private CollisionShape2D collider; 
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -35,6 +30,7 @@ public class Player : KinematicBody2D
         animationPlayer.PlaybackSpeed = 0.8f;
         urgeBar = GetParent().GetChild(4).GetChild(0).GetChild(0) as TextureProgress;
         gameLogic = GetParent() as GameLogic; 
+        collider = GetChild(1) as CollisionShape2D; 
     }
 
     //  // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -66,6 +62,8 @@ public class Player : KinematicBody2D
                 {
                     sliding = true;
                     gameLogic.speedMultiplier = 2f; 
+                    collider.Translate(new Vector2(150,350)); 
+                    collider.Rotate(-80f * gameLogic.PI / 180f); 
                     animationPlayer.Play("Slide");
                 }
 
@@ -79,6 +77,8 @@ public class Player : KinematicBody2D
                 {
                     currentslideTime = 0f; 
                     sliding = false;
+                    collider.Translate(new Vector2(-150,-350)); 
+                    collider.Rotate(80f * gameLogic.PI / 180f); 
                     gameLogic.speedMultiplier = 1f; 
                     animationPlayer.Play("run");
 
@@ -112,8 +112,6 @@ public class Player : KinematicBody2D
         }
 
         urgeBar.Value = urges;
-
-        GD.Print("Player urges are: " + urges);
     }
 
 

@@ -20,7 +20,8 @@ public class EnemyCoomer : Node2D
      arm.Rotate(armSpeed * delta); 
      Translate(new Vector2((GetParent() as GameLogic).GetCurrentSpeed(), 0) * delta); 
     
-
+     // TODO: destroy if left of screen
+  
  }
 
 
@@ -34,4 +35,8 @@ public class EnemyCoomer : Node2D
       
   }
 
+  public void OnScreenExit()
+  {
+      QueueFree(); 
+  }
 }

@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EnemyCoomer.cs" />
+    <Compile Include="EnemySocialMedia.cs" />
     <Compile Include="GameLogic.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
