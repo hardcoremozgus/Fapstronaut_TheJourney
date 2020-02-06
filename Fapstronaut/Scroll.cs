@@ -25,9 +25,9 @@ public class Scroll : Node2D
     accumulatedWidth += -magnitude; 
     childNode.Translate(new Vector2(magnitude, 0)); 
 
-    if(accumulatedWidth >= OS.WindowSize.x)
+    if(accumulatedWidth >= GetViewportRect().Size.x)
     {
-        childNode.Translate(new Vector2((float)OS.WindowSize.x + (accumulatedWidth - (float)OS.WindowSize.x), 0)); 
+        childNode.Translate(new Vector2((float)GetViewportRect().Size.x + (accumulatedWidth - (float)GetViewportRect().Size.x), 0)); 
         accumulatedWidth = 0; 
     }
  }
