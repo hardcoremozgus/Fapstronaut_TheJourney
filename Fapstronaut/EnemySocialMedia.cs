@@ -41,7 +41,17 @@ public class EnemySocialMedia : Node2D
         {
             (GetParent() as GameLogic).DoDamageToEntity(30, body);
         }
+        else if(playerKicksMe(body))
+        {
+            (GetParent() as GameLogic).AddScene("res://DeathLogic.tscn", GetParent()); 
+            QueueFree(); 
+        }
 
+    }
+
+    private bool playerKicksMe(Node body)
+    {
+        return body.Name == "Kick" && ((GetParent().GetChild(0)) as Player).state == playerState.kicking; 
     }
 
     public void OnScreenExit()

@@ -28,7 +28,7 @@ public class EnemyCoomer : Node2D
   public void ArmCollision(Node body)
   {
       GD.Print(body.Name); 
-      if(body.Name == "Player" && !((body as Player).sliding)) // just ignore the player if sliding, instea
+      if(body.Name == "Player" && !((body as Player).state == playerState.sliding)) // just ignore the player if sliding, instea
       {
           (GetParent() as GameLogic).DoDamageToEntity(20, body);
       }

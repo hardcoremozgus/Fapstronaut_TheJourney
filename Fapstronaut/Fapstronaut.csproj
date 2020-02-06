@@ -53,6 +53,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DeathLogic.cs" />
     <Compile Include="EnemyCoomer.cs" />
     <Compile Include="EnemySocialMedia.cs" />
     <Compile Include="GameLogic.cs" />
