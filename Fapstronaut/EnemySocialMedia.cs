@@ -15,15 +15,15 @@ public class EnemySocialMedia : Node2D
 
 
         // Sprite
-        int textValue = new Random().Next(0, 4);
-        String[] paths = new String[4];
-        paths[0] = "res://sprites//socialMedia//insta.png";
-        paths[1] = "res://sprites//socialMedia//tinder.png";
-        paths[2] = "res://sprites//socialMedia//4chan.png";
-        paths[3] = "res://sprites//socialMedia//snapchat.png";
+        int textValue = new Random().Next(0, 5);
+        String[] paths = new String[5];
+        paths[0] = "res://sprites/socialMedia/insta.png";
+        paths[1] = "res://sprites/socialMedia/tinder.png";
+        paths[2] = "res://sprites/socialMedia/4chan.png";
+        paths[3] = "res://sprites/socialMedia/snapchat.png";
+        paths[4] = "res://sprites/socialMedia/tiktok.png";
         var sprite = GetChild(0) as Sprite;
         sprite.Texture = ResourceLoader.Load(paths[textValue]) as Texture;
-
     }
 
     //  // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -36,22 +36,19 @@ public class EnemySocialMedia : Node2D
 
     public void Collision(Node body)
     {
-        GD.Print(body.Name);
+        GameLogic gameLogic = GetParent() as GameLogic; 
         if (body.Name == "Player")
         {
-            (GetParent() as GameLogic).DoDamageToEntity(30, body);
+            gameLogic.DoDamageToEntity(30, body);
         }
-        else if(playerKicksMe(body))
+
+        if(body.Name == "Kick" && ((GetParent().GetChild(0)) as Player).state != playerState.kicking)
         {
-            (GetParent() as GameLogic).AddScene("res://DeathLogic.tscn", GetParent()); 
-            QueueFree(); 
+            return; 
         }
 
-    }
-
-    private bool playerKicksMe(Node body)
-    {
-        return body.Name == "Kick" && ((GetParent().GetChild(0)) as Player).state == playerState.kicking; 
+       (GetParent() as GameLogic).AddScene("res://DeathLogic.tscn", GetParent());
+        QueueFree();
     }
 
     public void OnScreenExit()
