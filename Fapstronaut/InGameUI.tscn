@@ -18,10 +18,10 @@ position = Vector2( 1.80499, -24.3675 )
 z_index = -40
 
 [node name="Bar" type="TextureProgress" parent="UrgeBar"]
-margin_left = 44.4492
-margin_top = 45.1127
-margin_right = 226.449
-margin_bottom = 66.1127
+margin_left = 77.6203
+margin_top = 54.4006
+margin_right = 259.62
+margin_bottom = 75.4006
 texture_under = ExtResource( 3 )
 texture_over = ExtResource( 1 )
 texture_progress = ExtResource( 2 )
@@ -37,19 +37,20 @@ anchor_left = 0.00176269
 anchor_top = -0.0406126
 anchor_right = 0.00176269
 anchor_bottom = -0.0406126
-margin_left = 13.2112
-margin_top = 48.704
-margin_right = 53.2112
-margin_bottom = 62.704
+margin_left = 10.5704
+margin_top = 57.0664
+margin_right = 52.5704
+margin_bottom = 71.0664
 rect_pivot_offset = Vector2( 110.492, 6.20871 )
 custom_colors/font_color = Color( 0.819608, 0.427451, 0.0431373, 1 )
-text = "UR"
+text = "URGES"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Sprite" type="Sprite" parent="UrgeBar/Hint"]
-position = Vector2( 125.508, 30.5452 )
+position = Vector2( 205.502, 40.6196 )
+scale = Vector2( 1.68554, 1.68554 )
 z_index = -40
 texture = ExtResource( 4 )
 offset = Vector2( -101.688, 0.30434 )
@@ -59,10 +60,10 @@ position = Vector2( 1.80499, 19.855 )
 z_index = -40
 
 [node name="Bar" type="TextureProgress" parent="BrainFogBar"]
-margin_left = 44.4492
-margin_top = 45.1127
-margin_right = 226.449
-margin_bottom = 66.1127
+margin_left = 77.6203
+margin_top = 66.8289
+margin_right = 259.62
+margin_bottom = 87.8289
 value = 100.0
 texture_under = ExtResource( 3 )
 texture_over = ExtResource( 1 )
@@ -80,18 +81,20 @@ anchor_top = 0.0330917
 anchor_right = 0.00176269
 anchor_bottom = 0.0330917
 margin_left = 13.2112
-margin_top = 48.704
-margin_right = 53.2112
-margin_bottom = 62.704
+margin_top = 63.6684
+margin_right = 54.2112
+margin_bottom = 94.6684
 rect_pivot_offset = Vector2( 110.492, 6.20871 )
 custom_colors/font_color = Color( 0.458824, 0.105882, 0.839216, 1 )
-text = "BF"
+text = "BRAIN
+FOG"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Sprite" type="Sprite" parent="BrainFogBar/Hint"]
-position = Vector2( 125.508, 74.7677 )
+position = Vector2( 205.502, 95.9975 )
+scale = Vector2( 1.686, 1.686 )
 z_index = -40
 texture = ExtResource( 4 )
 offset = Vector2( -101.688, 0.30434 )

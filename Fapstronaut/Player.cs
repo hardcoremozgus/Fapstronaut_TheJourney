@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public enum playerState { walking, sliding, jumping, kicking }
 public class Player : KinematicBody2D
@@ -11,7 +12,7 @@ public class Player : KinematicBody2D
     const float jumpPower = -650f;
     float velocity = 0.0f;
     Vector2 floor = new Vector2(0, -1),
-    idlePos = new Vector2(0,0);
+    idlePos = new Vector2(0, 0);
     public double urges = 0f;
     public float brainFog = 100f;
     public float currentslideTime = 0f, slideTime = 1f;
@@ -23,6 +24,8 @@ public class Player : KinematicBody2D
     private GameLogic gameLogic;
     private CollisionShape2D collider, kick;
 
+    private Dictionary<String, AudioStreamPlayer2D> fxs;
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -33,9 +36,13 @@ public class Player : KinematicBody2D
         urgeBar = GetParent().GetChild(4).GetChild(0).GetChild(0) as TextureProgress;
         gameLogic = GetParent() as GameLogic;
         collider = GetChild(1) as CollisionShape2D;
-        kick = GetNode("Kick") as CollisionShape2D; 
+        kick = GetNode("Kick") as CollisionShape2D;
         state = playerState.walking;
-        idlePos = GlobalPosition; 
+        idlePos = GlobalPosition;
+        fxs = new Dictionary<String, AudioStreamPlayer2D>();
+        fxs.Add("Jump", GetNode("Audio").GetNode("Jump") as AudioStreamPlayer2D);
+        fxs.Add("Slide", GetNode("Audio").GetNode("Slide") as AudioStreamPlayer2D);
+        fxs.Add("Kick", GetNode("Audio").GetNode("Kick") as AudioStreamPlayer2D);
     }
 
     //  // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -56,7 +63,8 @@ public class Player : KinematicBody2D
             velocity = 0.1f;
             if (state == playerState.jumping)
             {
-                ToIdle(); 
+                fxs["Jump"].Stop();
+                ToIdle();
             }
         }
 
@@ -70,6 +78,7 @@ public class Player : KinematicBody2D
                         state = playerState.jumping;
                         gameLogic.speedMultiplier = 1.5f;
                         velocity = jumpPower;
+                        fxs["Jump"].Play();
                     }
 
                     if (Input.IsActionJustPressed("ui_down"))
@@ -80,6 +89,7 @@ public class Player : KinematicBody2D
                         collider.Rotate(-80f * gameLogic.PI / 180f);
                         animationPlayer.Play("Slide");
                         animationPlayer.PlaybackSpeed = 0.0f;
+                        fxs["Slide"].Play();
                     }
 
                     if (Input.IsActionJustPressed("ui_accept"))
@@ -87,6 +97,7 @@ public class Player : KinematicBody2D
                         state = playerState.kicking;
                         animationPlayer.Play("Kick");
                         animationPlayer.PlaybackSpeed = 2.5f;
+                        fxs["Kick"].Play();
                     }
 
 
@@ -98,6 +109,7 @@ public class Player : KinematicBody2D
                     if (Input.IsActionJustReleased("ui_down") || ((currentslideTime += delta) >= slideTime))
                     {
                         ToIdle();
+                        fxs["Slide"].Stop();
                         currentslideTime = 0f;
                         collider.Translate(new Vector2(-150, -350));
                         collider.Rotate(80f * gameLogic.PI / 180f);
@@ -121,6 +133,7 @@ public class Player : KinematicBody2D
     {
         if (name == "Kick")
         {
+            fxs["Kick"].Stop();
             ToIdle();
         }
 
@@ -133,7 +146,7 @@ public class Player : KinematicBody2D
         state = playerState.walking;
         animationPlayer.Play("run");
         gameLogic.speedMultiplier = 1f;
-        GlobalPosition = idlePos; 
+        GlobalPosition = idlePos;
     }
 
     private void Heal(double delta)

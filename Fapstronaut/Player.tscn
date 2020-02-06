@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://Player.cs" type="Script" id=1]
 [ext_resource path="res://sprites/virg/virg_0011_lfore.png" type="Texture" id=2]
@@ -15,6 +15,9 @@
 [ext_resource path="res://sprites/virg/virg_0008_lcalf.png" type="Texture" id=13]
 [ext_resource path="res://sprites/virg/virg_0010_larm.png" type="Texture" id=14]
 [ext_resource path="res://sprites/virg/virg_0002_rhand.png" type="Texture" id=15]
+[ext_resource path="res://audio/fx/jump.wav" type="AudioStream" id=16]
+[ext_resource path="res://audio/fx/slide.wav" type="AudioStream" id=17]
+[ext_resource path="res://audio/fx/kick.ogg" type="AudioStream" id=18]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 143.741
@@ -1156,4 +1159,16 @@ scale = Vector2( 4, 4 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Kick"]
 position = Vector2( 297.458, 370.64 )
 shape = SubResource( 5 )
+
+[node name="Audio" type="Node" parent="."]
+
+[node name="Jump" type="AudioStreamPlayer2D" parent="Audio"]
+stream = ExtResource( 16 )
+
+[node name="Slide" type="AudioStreamPlayer2D" parent="Audio"]
+stream = ExtResource( 17 )
+volume_db = 5.0
+
+[node name="Kick" type="AudioStreamPlayer2D" parent="Audio"]
+stream = ExtResource( 18 )
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="OnAnimationFinished"]
