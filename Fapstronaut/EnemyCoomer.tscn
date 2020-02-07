@@ -32,7 +32,8 @@ polygon = PoolVector2Array( 25.5, -491.1, 25.5, -489.9, 65.5, -452.9, 65.5, -450
 position = Vector2( 4282.87, 432.922 )
 rect = Rect2( -10, -10, 1000, 1000 )
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="VisibilityNotifier2D"]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+position = Vector2( 4282.87, 432.922 )
 stream = ExtResource( 4 )
 autoplay = true
 [connection signal="body_entered" from="Body/Arm/ArmPhysics" to="." method="ArmCollision"]

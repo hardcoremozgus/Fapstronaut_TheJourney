@@ -13,7 +13,6 @@ public class EnemySocialMedia : Node2D
         int value = new Random().Next(0, 3);
         Translate(new Vector2(0, value * ((GetViewport().Size.y - 2 * (GetViewport().Size.y / 4)) / 2)));
 
-
         // Sprite
         int textValue = new Random().Next(0, 5);
         String[] paths = new String[5];
@@ -24,6 +23,11 @@ public class EnemySocialMedia : Node2D
         paths[4] = "res://sprites/socialMedia/tiktok.png";
         var sprite = GetChild(0) as Sprite;
         sprite.Texture = ResourceLoader.Load(paths[textValue]) as Texture;
+
+        // Level
+        extraSpeed = (extraSpeed + (GetParent() as GameLogic).currentLevelUpPercentage * extraSpeed);
+        var audio = GetNode("AudioStreamPlayer2D") as AudioStreamPlayer2D;
+        audio.PitchScale += (audio.PitchScale * (GetParent() as GameLogic).currentLevelUpPercentage);
     }
 
     //  // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -36,15 +40,21 @@ public class EnemySocialMedia : Node2D
 
     public void Collision(Node body)
     {
-        GameLogic gameLogic = GetParent() as GameLogic; 
+
+        if (body.Name != "Player" && body.Name != "Kick")
+        {
+            return;
+        }
+
+        GameLogic gameLogic = GetParent() as GameLogic;
         if (body.Name == "Player")
         {
             gameLogic.DoDamageToEntity(30, body);
         }
 
-        if(body.Name == "Kick" && ((GetParent().GetChild(0)) as Player).state != playerState.kicking)
+        else if (body.Name == "Kick" && ((GetParent().GetChild(0)) as Player).state != playerState.kicking)
         {
-            return; 
+            return;
         }
 
        (GetParent() as GameLogic).AddScene("res://DeathLogic.tscn", GetParent());

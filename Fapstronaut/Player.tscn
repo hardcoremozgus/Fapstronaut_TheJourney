@@ -240,7 +240,7 @@ tracks/17/keys = {
 "times": PoolRealArray( 0, 0.2, 0.4 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ 26.6, -78.7, -100.0 ]
+"values": [ 26.6, -78.7, -118.0 ]
 }
 tracks/18/type = "value"
 tracks/18/path = NodePath("Torso/L_Leg/L_Calf/L_Foot:position")
@@ -1046,7 +1046,7 @@ tracks/27/keys = {
 radius = 28.359
 
 [node name="Player" type="KinematicBody2D"]
-position = Vector2( 100, 400 )
+position = Vector2( 150, 400 )
 scale = Vector2( 0.25, 0.25 )
 script = ExtResource( 1 )
 
@@ -1103,7 +1103,7 @@ offset = Vector2( 5.79111, 16.0286 )
 
 [node name="R_Leg" type="Sprite" parent="Torso"]
 position = Vector2( -8.34888, 172.398 )
-rotation = -1.74533
+rotation = -2.05949
 z_index = 1
 texture = ExtResource( 10 )
 offset = Vector2( 4.63824, 106.573 )
@@ -1157,7 +1157,7 @@ position = Vector2( -400, -1600 )
 scale = Vector2( 4, 4 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Kick"]
-position = Vector2( 297.458, 370.64 )
+position = Vector2( 279.563, 335.903 )
 shape = SubResource( 5 )
 
 [node name="Audio" type="Node" parent="."]

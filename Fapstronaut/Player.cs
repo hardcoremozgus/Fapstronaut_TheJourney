@@ -9,15 +9,17 @@ public class Player : KinematicBody2D
     private AnimationPlayer animationPlayer;
 
     const float gravity = 20f;
-    const float jumpPower = -650f;
+    float jumpPower = -650f;
     float velocity = 0.0f;
     Vector2 floor = new Vector2(0, -1),
     idlePos = new Vector2(0, 0);
     public double urges = 0f;
     public float brainFog = 100f;
+
+    public float damage = 30f;
     public float currentslideTime = 0f, slideTime = 1f;
     public float urgeHeal = 5f;  // TODO: decrease brain fog with time, and thus upgrade this at least
-    private TextureProgress urgeBar;
+    private TextureProgress urgeBar, brainFogBar;
 
     public playerState state;
     float slideHeight = 215;
@@ -26,6 +28,8 @@ public class Player : KinematicBody2D
 
     private Dictionary<String, AudioStreamPlayer2D> fxs;
 
+    public uint postersArrived = 0;
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -33,7 +37,8 @@ public class Player : KinematicBody2D
         animationPlayer = GetNode("AnimationPlayer") as AnimationPlayer;
         animationPlayer.Play("run");
         animationPlayer.PlaybackSpeed = 0.8f;
-        urgeBar = GetParent().GetChild(4).GetChild(0).GetChild(0) as TextureProgress;
+        urgeBar = GetParent().GetChild(4).GetChild(0).GetChild(0) as TextureProgress; // very dirty :o
+        brainFogBar = GetParent().GetChild(4).GetChild(1).GetChild(0) as TextureProgress; // very dirty :o
         gameLogic = GetParent() as GameLogic;
         collider = GetChild(1) as CollisionShape2D;
         kick = GetNode("Kick") as CollisionShape2D;
@@ -163,6 +168,15 @@ public class Player : KinematicBody2D
         }
 
         urgeBar.Value = urges;
+    }
+
+    public void LevelUp()
+    {
+        float percentatge = 0.05f;
+        brainFogBar.Value = (brainFog -= (brainFog * percentatge));
+        jumpPower += (jumpPower * percentatge);
+        slideTime +=  (slideTime * percentatge);
+        damage += (damage * percentatge); // TODO: with new enemies, consider this damage variable
     }
 
 

@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public enum EnemyTypes { COOMER, SOCIALMEDIA, MAXTYPES };
+public enum EntityTypes { COOMER, SOCIALMEDIA, POSTER, MAXTYPES };
 public class GameLogic : Node2D
 {
     // Declare member variables here. Examples:
@@ -11,19 +11,24 @@ public class GameLogic : Node2D
 
     public float PI = 3.14159f;
 
+    public float levelUpPercentatge = 0.05f,
+    currentLevelUpPercentage = 0.05f; 
+
     public float speedMultiplier = 1f;
     // Called when the node enters the scene tree for the first time.
 
     TextureProgress urgeBar;
-    Tuple<String, float, float>[] enemySpawnTimers; // scene string name (enemy), spawntime, currenttime
+    Tuple<String, float, float>[] spawnTimers; // scene string name, spawntime, currenttime
 
-    public EnemyTypes enemyTypes;
+    public EntityTypes entityTypes;
+
     public override void _Ready()
     {
         urgeBar = GetChild(4).GetChild(0).GetChild(0) as TextureProgress;
-        enemySpawnTimers = new Tuple<String, float, float>[(int)EnemyTypes.MAXTYPES];
-        enemySpawnTimers[0] = Tuple.Create("res://EnemyCoomer.tscn", 20f, 0f);
-        enemySpawnTimers[1] = Tuple.Create("res://EnemySocialMedia.tscn", 5f, 0f);
+        spawnTimers = new Tuple<String, float, float>[(int)EntityTypes.MAXTYPES];
+        spawnTimers[0] = Tuple.Create("res://EnemyCoomer.tscn", 20f, 0f);
+        spawnTimers[1] = Tuple.Create("res://EnemySocialMedia.tscn", 5f, 0f);
+        spawnTimers[2] = Tuple.Create("res://Poster.tscn", 30f, 0f);
     }
 
     //  // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -34,16 +39,16 @@ public class GameLogic : Node2D
 
     void SpawnEnemyLogic(float delta)
     {
-        for (int i = 0; i < enemySpawnTimers.Length; ++i)
+        for (int i = 0; i < spawnTimers.Length; ++i)
         {
-            var last = enemySpawnTimers[i];
+            var last = spawnTimers[i];
             float currentTime = last.Item3 + delta;
             if (currentTime >= last.Item2)
             {
                 currentTime = 0f;
-                AddScene(enemySpawnTimers[i].Item1, this);
+                AddScene(spawnTimers[i].Item1, this);
             }
-            enemySpawnTimers[i] = Tuple.Create(last.Item1, last.Item2, currentTime);
+            spawnTimers[i] = Tuple.Create(last.Item1, last.Item2, currentTime);
 
         }
 
@@ -73,6 +78,28 @@ public class GameLogic : Node2D
     public float GetCurrentSpeed()
     {
         return scrollSpeed * speedMultiplier;
+    }
+
+    public void OnCheckpoint()
+    {
+        currentLevelUpPercentage += levelUpPercentatge; 
+
+        Player player = (GetChild(0) as Player);
+        if (player.postersArrived > 10)
+        {
+            GetTree().Quit(); // TODO: a win screen
+            return;
+        }
+
+        player.LevelUp();
+
+        // Enemies spawned more often
+        for (int i = 0; i < spawnTimers.Length; ++i)
+        {
+            var last = spawnTimers[i];
+            spawnTimers[i] = Tuple.Create(last.Item1, last.Item2 - last.Item2 * levelUpPercentatge, last.Item3);
+        }
+
     }
 
 }
