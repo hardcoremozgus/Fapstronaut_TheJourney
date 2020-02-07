@@ -9,12 +9,14 @@ public class Player : KinematicBody2D
     private AnimationPlayer animationPlayer;
 
     const float gravity = 20f;
-    float jumpPower = -650f;
+    float jumpPower = -550f;
     float velocity = 0.0f;
     Vector2 floor = new Vector2(0, -1),
     idlePos = new Vector2(0, 0);
     public double urges = 0f;
     public float brainFog = 100f;
+
+    public bool chad = false;
 
     public float damage = 30f;
     public float currentslideTime = 0f, slideTime = 1f;
@@ -72,6 +74,7 @@ public class Player : KinematicBody2D
                 ToIdle();
             }
         }
+
 
         // State
         switch (state)
@@ -172,12 +175,36 @@ public class Player : KinematicBody2D
 
     public void LevelUp()
     {
-        float percentatge = 0.05f;
+        float percentatge = (GetParent() as GameLogic).levelUpPercentatge;
         brainFogBar.Value = (brainFog -= (brainFog * percentatge));
         jumpPower += (jumpPower * percentatge);
-        slideTime +=  (slideTime * percentatge);
-        damage += (damage * percentatge); // TODO: with new enemies, consider this damage variable
+        slideTime += (slideTime * percentatge);
+        damage += (damage * percentatge);  
+
+        if (postersArrived == 6)
+        {
+            MakeChad();
+        }
+
     }
 
+
+    private void MakeChad()
+    {
+        chad = true;
+
+        // Delete old sprites and animation player
+        GetNode("AnimationPlayer").QueueFree();
+        GetNode("Torso").QueueFree();
+
+        var chadNode = GetNode("Chad");
+        (chadNode.GetNode("Torso") as Sprite).Visible = true;
+        animationPlayer = chadNode.GetNode("AnimationPlayer") as AnimationPlayer;
+
+        // TODO: other fxs??? 
+
+        // Reset stuff
+        ToIdle();
+    }
 
 }

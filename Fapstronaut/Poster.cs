@@ -5,7 +5,7 @@ public class Poster : Node2D
 {
     // Declare member variables here. Examples:
     // private int a = 2;
-    // private string b = "text";
+    private bool arrived = false;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -65,9 +65,14 @@ public class Poster : Node2D
             return;
         }
 
-        GetNode("Area2D").QueueFree();
-        (GetParent() as GameLogic).OnCheckpoint();
+        if (!arrived)
+        {
+            (GetNode("Audio").GetChild(new Random().Next(0, 2)) as AudioStreamPlayer2D).Play(); 
+            GetNode("Area2D").QueueFree();
+            (GetParent() as GameLogic).OnCheckpoint();
+        }
 
+        arrived = true;
     }
 
     public void OnScreenExit()

@@ -6,6 +6,8 @@ public class EnemySocialMedia : Node2D
     // Declare member variables here. Examples:
     private float extraSpeed = -300f;
 
+    private float dmg = 30f; 
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -28,6 +30,7 @@ public class EnemySocialMedia : Node2D
         extraSpeed = (extraSpeed + (GetParent() as GameLogic).currentLevelUpPercentage * extraSpeed);
         var audio = GetNode("AudioStreamPlayer2D") as AudioStreamPlayer2D;
         audio.PitchScale += (audio.PitchScale * (GetParent() as GameLogic).currentLevelUpPercentage);
+        dmg += (dmg * (GetParent() as GameLogic).currentLevelUpPercentage); 
     }
 
     //  // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -49,7 +52,7 @@ public class EnemySocialMedia : Node2D
         GameLogic gameLogic = GetParent() as GameLogic;
         if (body.Name == "Player")
         {
-            gameLogic.DoDamageToEntity(30, body);
+            gameLogic.DoDamageToEntity(dmg, body);
         }
 
         else if (body.Name == "Kick" && ((GetParent().GetChild(0)) as Player).state != playerState.kicking)

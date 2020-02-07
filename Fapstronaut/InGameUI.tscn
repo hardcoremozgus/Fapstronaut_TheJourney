@@ -6,8 +6,7 @@
 [ext_resource path="res://sprites/UI/bar/Helper.png" type="Texture" id=4]
 
 [node name="InGameUI" type="Control"]
-margin_left = -0.291992
-margin_right = 1023.71
+margin_right = 1024.0
 margin_bottom = 600.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -18,10 +17,11 @@ position = Vector2( 1.80499, -24.3675 )
 z_index = -40
 
 [node name="Bar" type="TextureProgress" parent="UrgeBar"]
-margin_left = 77.6203
+margin_left = 68.5953
 margin_top = 54.4006
-margin_right = 259.62
+margin_right = 250.595
 margin_bottom = 75.4006
+rect_scale = Vector2( 0.675, 1 )
 texture_under = ExtResource( 3 )
 texture_over = ExtResource( 1 )
 texture_progress = ExtResource( 2 )
@@ -60,10 +60,11 @@ position = Vector2( 1.80499, 19.855 )
 z_index = -40
 
 [node name="Bar" type="TextureProgress" parent="BrainFogBar"]
-margin_left = 77.6203
+margin_left = 68.5953
 margin_top = 66.8289
-margin_right = 259.62
+margin_right = 250.595
 margin_bottom = 87.8289
+rect_scale = Vector2( 0.675, 1 )
 value = 100.0
 texture_under = ExtResource( 3 )
 texture_over = ExtResource( 1 )
