@@ -4,7 +4,7 @@ using System;
 public class EnemyCoomer : Node2D
 {
     // Declare member variables here. Examples:
-    private float armSpeed = -10f; 
+    private float armSpeed = -5f; 
     private Vector2 speed; 
     private Sprite arm; 
 

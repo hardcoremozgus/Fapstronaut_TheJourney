@@ -10,6 +10,7 @@ extents = Vector2( 64.8068, 357.734 )
 
 [node name="Poster" type="Node2D"]
 position = Vector2( 1100, 430 )
+z_index = -10
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]

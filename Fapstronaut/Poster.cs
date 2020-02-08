@@ -10,7 +10,6 @@ public class Poster : Node2D
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-
         (GetNode("Label") as Label).Text = GetText(++(GetParent().GetChild(0) as Player).postersArrived - 1);
     }
 

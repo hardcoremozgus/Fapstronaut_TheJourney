@@ -5,18 +5,22 @@
 [ext_resource path="res://sprites/UI/bar/back.png" type="Texture" id=3]
 [ext_resource path="res://sprites/UI/bar/Helper.png" type="Texture" id=4]
 
-[node name="InGameUI" type="Control"]
+[node name="InGameUI" type="Node2D"]
+z_index = -10
+
+[node name="Control" type="Control" parent="."]
 margin_right = 1024.0
 margin_bottom = 600.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="UrgeBar" type="Node2D" parent="."]
+[node name="UrgeBar" type="Node2D" parent="Control"]
 position = Vector2( 1.80499, -24.3675 )
 z_index = -40
+z_as_relative = false
 
-[node name="Bar" type="TextureProgress" parent="UrgeBar"]
+[node name="Bar" type="TextureProgress" parent="Control/UrgeBar"]
 margin_left = 68.5953
 margin_top = 54.4006
 margin_right = 250.595
@@ -30,17 +34,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Hint" type="Node" parent="UrgeBar"]
+[node name="Hint" type="Node2D" parent="Control/UrgeBar"]
+z_index = -40
+z_as_relative = false
 
-[node name="Label" type="Label" parent="UrgeBar/Hint"]
+[node name="Label" type="Label" parent="Control/UrgeBar/Hint"]
 anchor_left = 0.00176269
 anchor_top = -0.0406126
 anchor_right = 0.00176269
 anchor_bottom = -0.0406126
-margin_left = 10.5704
-margin_top = 57.0664
-margin_right = 52.5704
-margin_bottom = 71.0664
+margin_left = 11.6634
+margin_top = 55.6732
+margin_right = 53.6634
+margin_bottom = 69.6732
 rect_pivot_offset = Vector2( 110.492, 6.20871 )
 custom_colors/font_color = Color( 0.819608, 0.427451, 0.0431373, 1 )
 text = "URGES"
@@ -48,24 +54,27 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Sprite" type="Sprite" parent="UrgeBar/Hint"]
-position = Vector2( 205.502, 40.6196 )
+[node name="Sprite" type="Sprite" parent="Control/UrgeBar/Hint"]
+position = Vector2( 204.839, 64.5028 )
 scale = Vector2( 1.68554, 1.68554 )
-z_index = -40
+z_index = -41
+z_as_relative = false
 texture = ExtResource( 4 )
 offset = Vector2( -101.688, 0.30434 )
 
-[node name="BrainFogBar" type="Node2D" parent="."]
+[node name="BrainFogBar" type="Node2D" parent="Control"]
 position = Vector2( 1.80499, 19.855 )
 z_index = -40
+z_as_relative = false
 
-[node name="Bar" type="TextureProgress" parent="BrainFogBar"]
+[node name="Bar" type="TextureProgress" parent="Control/BrainFogBar"]
 margin_left = 68.5953
 margin_top = 66.8289
 margin_right = 250.595
 margin_bottom = 87.8289
 rect_scale = Vector2( 0.675, 1 )
-value = 100.0
+max_value = 50.0
+value = 50.0
 texture_under = ExtResource( 3 )
 texture_over = ExtResource( 1 )
 texture_progress = ExtResource( 2 )
@@ -74,17 +83,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Hint" type="Node" parent="BrainFogBar"]
+[node name="Hint" type="Node2D" parent="Control/BrainFogBar"]
+z_index = -40
+z_as_relative = false
 
-[node name="Label" type="Label" parent="BrainFogBar/Hint"]
+[node name="Label" type="Label" parent="Control/BrainFogBar/Hint"]
 anchor_left = 0.00176269
 anchor_top = 0.0330917
 anchor_right = 0.00176269
 anchor_bottom = 0.0330917
-margin_left = 13.2112
-margin_top = 63.6684
-margin_right = 54.2112
-margin_bottom = 94.6684
+margin_left = 14.538
+margin_top = 67.6489
+margin_right = 55.538
+margin_bottom = 98.6489
 rect_pivot_offset = Vector2( 110.492, 6.20871 )
 custom_colors/font_color = Color( 0.458824, 0.105882, 0.839216, 1 )
 text = "BRAIN
@@ -93,9 +104,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Sprite" type="Sprite" parent="BrainFogBar/Hint"]
-position = Vector2( 205.502, 95.9975 )
+[node name="Sprite" type="Sprite" parent="Control/BrainFogBar/Hint"]
+position = Vector2( 206.165, 82.7291 )
 scale = Vector2( 1.686, 1.686 )
-z_index = -40
+z_index = -41
+z_as_relative = false
 texture = ExtResource( 4 )
 offset = Vector2( -101.688, 0.30434 )

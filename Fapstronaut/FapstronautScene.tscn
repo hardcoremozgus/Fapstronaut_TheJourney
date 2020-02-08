@@ -46,6 +46,7 @@ autoplay = true
 
 [node name="MusicChad" type="AudioStreamPlayer2D" parent="Music"]
 stream = ExtResource( 6 )
+volume_db = -10.0
 
 [node name="InGameUI" parent="." instance=ExtResource( 5 )]
 

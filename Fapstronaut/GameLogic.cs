@@ -25,12 +25,12 @@ public class GameLogic : Node2D
 
     public override void _Ready()
     {
-        urgeBar = GetChild(4).GetChild(0).GetChild(0) as TextureProgress;
+        urgeBar = GetChild(4).GetChild(0).GetChild(0).GetChild(0) as TextureProgress;
         spawnTimers = new Tuple<String, float, float>[(int)EntityTypes.MAXTYPES];
-        spawnTimers[0] = Tuple.Create("res://EnemyCoomer.tscn", 10f, 0f);
-        spawnTimers[1] = Tuple.Create("res://EnemySocialMedia.tscn", 2.5f, 0f);
+        spawnTimers[0] = Tuple.Create("res://EnemyCoomer.tscn", 15f, 0f);
+        spawnTimers[1] = Tuple.Create("res://EnemySocialMedia.tscn", 3.5f, 0f);
         spawnTimers[2] = Tuple.Create("res://Poster.tscn", 30f, 0f);
-        spawnTimers[3] = Tuple.Create("res://EnemyTwitchThot.tscn", 12f, 0f);
+        spawnTimers[3] = Tuple.Create("res://EnemyTwitchThot.tscn", 20f, 0f);
     }
 
     //  // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -76,7 +76,7 @@ public class GameLogic : Node2D
             (entity as Player).urges += damage;
             if ((entity as Player).urges >= 100)
             {
-                // TODO: death
+                GetTree().Quit(); // TODO: a death screen 
             }
         }
         else if (entity.Name == "EnemyTwitchThot")

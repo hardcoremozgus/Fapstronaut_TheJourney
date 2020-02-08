@@ -41,8 +41,8 @@ public class Player : KinematicBody2D
         animationPlayer = GetNode("AnimationPlayer") as AnimationPlayer;
         animationPlayer.Play("run");
         animationPlayer.PlaybackSpeed = 0.8f;
-        urgeBar = GetParent().GetChild(4).GetChild(0).GetChild(0) as TextureProgress; // very dirty :o
-        brainFogBar = GetParent().GetChild(4).GetChild(1).GetChild(0) as TextureProgress; // very dirty :o
+        urgeBar = GetParent().GetChild(4).GetChild(0).GetChild(0).GetChild(0) as TextureProgress; // very dirty :o
+        brainFogBar = GetParent().GetChild(4).GetChild(0).GetChild(1).GetChild(0) as TextureProgress; // very dirty :o
         gameLogic = GetParent() as GameLogic;
         collider = GetChild(1) as CollisionShape2D;
         kick = GetNode("Kick") as CollisionShape2D;
@@ -236,7 +236,7 @@ public class Player : KinematicBody2D
     public void LevelUp()
     {
         float percentatge = (GetParent() as GameLogic).levelUpPercentatge;
-        brainFogBar.Value = (brainFog -= (brainFog * percentatge));
+        brainFogBar.Value = (brainFogBar.Value - brainFogBar.MaxValue * 1/5f); // 5 is the n times where you become chad
         jumpPower += (jumpPower * percentatge);
         slideTime += (slideTime * percentatge);
         damage += (damage * percentatge);
