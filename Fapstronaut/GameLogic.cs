@@ -12,7 +12,7 @@ public class GameLogic : Node2D
     public float PI = 3.14159f;
 
     public float levelUpPercentatge = 0.05f,
-    currentLevelUpPercentage = 0.05f; 
+    currentLevelUpPercentage = 0.05f;
 
     public float speedMultiplier = 1f;
     // Called when the node enters the scene tree for the first time.
@@ -26,9 +26,9 @@ public class GameLogic : Node2D
     {
         urgeBar = GetChild(4).GetChild(0).GetChild(0) as TextureProgress;
         spawnTimers = new Tuple<String, float, float>[(int)EntityTypes.MAXTYPES];
-        spawnTimers[0] = Tuple.Create("res://EnemyCoomer.tscn", 20f, 0f);
-        spawnTimers[1] = Tuple.Create("res://EnemySocialMedia.tscn", 5f, 0f);
-        spawnTimers[2] = Tuple.Create("res://Poster.tscn", 30f, 0f);
+        spawnTimers[0] = Tuple.Create("res://EnemyCoomer.tscn", 8f, 0f);
+        spawnTimers[1] = Tuple.Create("res://EnemySocialMedia.tscn", 2f, 0f);
+        spawnTimers[2] = Tuple.Create("res://Poster.tscn", 5f, 0f);
     }
 
     //  // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -53,6 +53,8 @@ public class GameLogic : Node2D
         }
 
     }
+
+
 
     public void AddScene(String scenePath, Node parent)
     {
@@ -82,7 +84,7 @@ public class GameLogic : Node2D
 
     public void OnCheckpoint()
     {
-        currentLevelUpPercentage += levelUpPercentatge; 
+        currentLevelUpPercentage += levelUpPercentatge;
 
         Player player = (GetChild(0) as Player);
         if (player.postersArrived > 10)
@@ -91,7 +93,11 @@ public class GameLogic : Node2D
             return;
         }
 
-        player.LevelUp();
+        if (player.chad == false)
+        {
+            player.LevelUp();
+        }
+
 
         // Enemies spawned more often
         for (int i = 0; i < spawnTimers.Length; ++i)

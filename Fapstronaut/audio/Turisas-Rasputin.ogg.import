@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Turisas-Rasputin.ogg-3ee0d0d606b7e0efbbd457df99f1707f.oggstr"
+
+[deps]
+
+source_file="res://audio/Turisas-Rasputin.ogg"
+dest_files=[ "res://.import/Turisas-Rasputin.ogg-3ee0d0d606b7e0efbbd457df99f1707f.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://sprites/Background.png" type="Texture" id=1]
 [ext_resource path="res://Scroll.cs" type="Script" id=2]
 [ext_resource path="res://Player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Poster.tscn" type="PackedScene" id=4]
 [ext_resource path="res://InGameUI.tscn" type="PackedScene" id=5]
+[ext_resource path="res://audio/Turisas-Rasputin.ogg" type="AudioStream" id=6]
 [ext_resource path="res://audio/Green Day Boulevard Of Broken Dreams - [Official Video].ogg" type="AudioStream" id=18]
 [ext_resource path="res://GameLogic.cs" type="Script" id=20]
 
@@ -36,10 +37,15 @@ shape = SubResource( 1 )
 position = Vector2( 510, 300 )
 current = true
 
-[node name="Music" type="AudioStreamPlayer2D" parent="."]
+[node name="Music" type="Node2D" parent="."]
+
+[node name="Music" type="AudioStreamPlayer2D" parent="Music"]
 stream = ExtResource( 18 )
 volume_db = -10.0
 autoplay = true
+
+[node name="MusicChad" type="AudioStreamPlayer2D" parent="Music"]
+stream = ExtResource( 6 )
 
 [node name="InGameUI" parent="." instance=ExtResource( 5 )]
 

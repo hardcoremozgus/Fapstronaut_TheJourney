@@ -8,7 +8,7 @@ public class Player : KinematicBody2D
     // Declare member variables here. Examples:
     private AnimationPlayer animationPlayer;
 
-    const float gravity = 20f;
+    float gravity = 20f;
     float jumpPower = -550f;
     float velocity = 0.0f;
     Vector2 floor = new Vector2(0, -1),
@@ -17,7 +17,7 @@ public class Player : KinematicBody2D
     public float brainFog = 100f;
 
     public bool chad = false;
-
+    uint jumpCount = 0; 
     public float damage = 30f;
     public float currentslideTime = 0f, slideTime = 1f;
     public float urgeHeal = 5f;  // TODO: decrease brain fog with time, and thus upgrade this at least
@@ -61,6 +61,11 @@ public class Player : KinematicBody2D
 
     private void Move(float delta) // move and slide already takes into account delta
     {
+        if (Input.IsActionJustPressed("ui_cancel"))
+        {
+            MakeChad();
+        }
+
         // First move and slide, it will update the IsOnFloor() logic
         MoveAndSlide(new Vector2(0, velocity), floor);
 
@@ -70,8 +75,7 @@ public class Player : KinematicBody2D
             velocity = 0.1f;
             if (state == playerState.jumping)
             {
-                fxs["Jump"].Stop();
-                ToIdle();
+                StopJumping();
             }
         }
 
@@ -83,10 +87,7 @@ public class Player : KinematicBody2D
                 {
                     if (Input.IsActionJustPressed("ui_up"))
                     {
-                        state = playerState.jumping;
-                        gameLogic.speedMultiplier = 1.5f;
-                        velocity = jumpPower;
-                        fxs["Jump"].Play();
+                        Jump();
                     }
 
                     if (Input.IsActionJustPressed("ui_down"))
@@ -116,11 +117,7 @@ public class Player : KinematicBody2D
                 {
                     if (Input.IsActionJustReleased("ui_down") || ((currentslideTime += delta) >= slideTime))
                     {
-                        ToIdle();
-                        fxs["Slide"].Stop();
-                        currentslideTime = 0f;
-                        collider.Translate(new Vector2(-150, -350));
-                        collider.Rotate(80f * gameLogic.PI / 180f);
+                        StopSliding();
                     }
                     break;
                 }
@@ -130,6 +127,18 @@ public class Player : KinematicBody2D
                     gameLogic.speedMultiplier = 2f;
                     animationPlayer.PlaybackSpeed = 0.0f;
                     velocity += gravity;
+
+                    // Double Jump
+                   
+                    if (chad)
+                    {
+                        if (Input.IsActionJustPressed("ui_up") && jumpCount < 2)
+                        {
+
+                            Jump();
+                        }
+                    }
+
                     break;
                 }
 
@@ -137,14 +146,44 @@ public class Player : KinematicBody2D
 
     }
 
+    private void Jump()
+    {
+        jumpCount++; 
+        state = playerState.jumping;
+        gameLogic.speedMultiplier = 1.5f;
+        velocity = jumpPower;
+        fxs["Jump"].Play();
+    }
+
     public void OnAnimationFinished(String name) // must do this here, as a signal, for the kick anim 
     {
         if (name == "Kick")
         {
-            fxs["Kick"].Stop();
-            ToIdle();
+            StopKicking();
         }
 
+    }
+
+    private void StopSliding()
+    {
+        fxs["Slide"].Stop();
+        currentslideTime = 0f;
+        collider.Translate(new Vector2(-150, -350));
+        collider.Rotate(80f * gameLogic.PI / 180f);
+        ToIdle();
+    }
+
+    private void StopJumping()
+    {
+        jumpCount = 0; 
+        fxs["Jump"].Stop();
+        ToIdle();
+    }
+
+    private void StopKicking()
+    {
+        fxs["Kick"].Stop();
+        ToIdle();
     }
 
 
@@ -179,7 +218,7 @@ public class Player : KinematicBody2D
         brainFogBar.Value = (brainFog -= (brainFog * percentatge));
         jumpPower += (jumpPower * percentatge);
         slideTime += (slideTime * percentatge);
-        damage += (damage * percentatge);  
+        damage += (damage * percentatge);
 
         if (postersArrived == 6)
         {
@@ -201,10 +240,40 @@ public class Player : KinematicBody2D
         (chadNode.GetNode("Torso") as Sprite).Visible = true;
         animationPlayer = chadNode.GetNode("AnimationPlayer") as AnimationPlayer;
 
-        // TODO: other fxs??? 
+        // More Stats
+        urgeBar.MaxValue *= 2d;
+        jumpPower *= 1.5f; 
+        gravity *= 1.2f; 
+
+        // Music
+        (GetParent().GetNode("Music").GetNode("Music") as AudioStreamPlayer2D).Stop();
+        (GetParent().GetNode("Music").GetNode("MusicChad") as AudioStreamPlayer2D).Play();
 
         // Reset stuff
-        ToIdle();
+        switch (state)
+        {
+            case playerState.walking:
+                {
+                    ToIdle();
+                    break;
+                }
+            case playerState.sliding:
+                {
+                    StopSliding();
+                    break;
+                }
+            case playerState.jumping:
+                {
+                    StopJumping();
+                    break;
+                }
+            case playerState.kicking:
+                {
+                    StopKicking();
+                    break;
+                }
+        }
+
     }
 
 }

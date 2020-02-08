@@ -601,7 +601,7 @@ tracks/18/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 337.059, 350 ) ]
+"values": [ Vector2( 337.059, 370 ) ]
 }
 tracks/19/type = "value"
 tracks/19/path = NodePath("Torso:rotation_degrees")
@@ -1055,7 +1055,7 @@ tracks/27/keys = {
 [sub_resource type="CircleShape2D" id=5]
 radius = 28.359
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=6]
 resource_name = "Kick"
 length = 0.5
 tracks/0/type = "value"
@@ -1299,7 +1299,7 @@ tracks/19/keys = {
 "values": [ 0.0, 0.0, -30.0 ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=7]
 resource_name = "Slide"
 tracks/0/type = "value"
 tracks/0/path = NodePath("Torso/L_Leg/L_Calf:position")
@@ -1542,8 +1542,7 @@ tracks/19/keys = {
 "values": [ 0.0 ]
 }
 
-[sub_resource type="Animation" id=6]
-resource_name = "run"
+[sub_resource type="Animation" id=8]
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Torso/R_Arm:position")
@@ -1792,7 +1791,7 @@ scale = Vector2( 0.25, 0.25 )
 script = ExtResource( 1 )
 
 [node name="Torso" type="Sprite" parent="."]
-position = Vector2( 337.059, 350 )
+position = Vector2( 337.059, 370 )
 rotation = -1.22173
 texture = ExtResource( 4 )
 
@@ -1919,17 +1918,19 @@ stream = ExtResource( 18 )
 
 [node name="Torso" type="Sprite" parent="Chad"]
 visible = false
-position = Vector2( 364.109, 80 )
+position = Vector2( 364.109, 450 )
+rotation = 1.0472
 texture = ExtResource( 19 )
 
 [node name="Head" type="Sprite" parent="Chad/Torso"]
 position = Vector2( -21.043, -312.174 )
+rotation = 0.349066
 texture = ExtResource( 20 )
 offset = Vector2( 46.2476, -46.0486 )
 
 [node name="R_Arm" type="Sprite" parent="Chad/Torso"]
 position = Vector2( -84.2954, -169.994 )
-rotation = -0.975639
+rotation = -1.5708
 z_index = 2
 texture = ExtResource( 27 )
 offset = Vector2( -16.0432, 49.0256 )
@@ -1954,6 +1955,7 @@ offset = Vector2( -59.3972, 63.3947 )
 
 [node name="L_Leg" type="Sprite" parent="Chad/Torso"]
 position = Vector2( -9.251, 111.618 )
+rotation = -2.53073
 z_index = -1
 texture = ExtResource( 24 )
 offset = Vector2( 49.0159, 93.2683 )
@@ -1966,7 +1968,7 @@ offset = Vector2( 31.542, 86.4686 )
 
 [node name="L_Arm" type="Sprite" parent="Chad/Torso"]
 position = Vector2( 45.95, -168.046 )
-rotation = 1.78198
+rotation = 2.0944
 z_index = -1
 texture = ExtResource( 21 )
 offset = Vector2( 88.7546, 0 )
@@ -1978,8 +1980,8 @@ texture = ExtResource( 23 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Chad"]
 method_call_mode = 1
-anims/Kick = SubResource( 7 )
-anims/Slide = SubResource( 8 )
-anims/run = SubResource( 6 )
+anims/Kick = SubResource( 6 )
+anims/Slide = SubResource( 7 )
+anims/run = SubResource( 8 )
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="OnAnimationFinished"]
 [connection signal="animation_finished" from="Chad/AnimationPlayer" to="." method="OnAnimationFinished"]
