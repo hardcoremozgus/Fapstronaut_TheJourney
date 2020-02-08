@@ -16,8 +16,10 @@ public class Player : KinematicBody2D
     public double urges = 0f;
     public float brainFog = 100f;
 
+    public bool incapacitated = false;
+
     public bool chad = false;
-    uint jumpCount = 0; 
+    uint jumpCount = 0;
     public float damage = 30f;
     public float currentslideTime = 0f, slideTime = 1f;
     public float urgeHeal = 5f;  // TODO: decrease brain fog with time, and thus upgrade this at least
@@ -61,10 +63,12 @@ public class Player : KinematicBody2D
 
     private void Move(float delta) // move and slide already takes into account delta
     {
+        /*
+        // Debug
         if (Input.IsActionJustPressed("ui_cancel"))
         {
             MakeChad();
-        }
+        }*/
 
         // First move and slide, it will update the IsOnFloor() logic
         MoveAndSlide(new Vector2(0, velocity), floor);
@@ -85,20 +89,24 @@ public class Player : KinematicBody2D
         {
             case playerState.walking: // Can jump, slide or kick
                 {
-                    if (Input.IsActionJustPressed("ui_up"))
+                    if (incapacitated == false)
                     {
-                        Jump();
-                    }
+                        if (Input.IsActionJustPressed("ui_up"))
+                        {
+                            Jump();
+                        }
 
-                    if (Input.IsActionJustPressed("ui_down"))
-                    {
-                        state = playerState.sliding;
-                        gameLogic.speedMultiplier = 2f;
-                        collider.Translate(new Vector2(150, 350));
-                        collider.Rotate(-80f * gameLogic.PI / 180f);
-                        animationPlayer.Play("Slide");
-                        animationPlayer.PlaybackSpeed = 0.0f;
-                        fxs["Slide"].Play();
+                        if (Input.IsActionJustPressed("ui_down"))
+                        {
+                            state = playerState.sliding;
+                            gameLogic.speedMultiplier = 2f;
+                            collider.Translate(new Vector2(150, 350));
+                            collider.Rotate(-80f * gameLogic.PI / 180f);
+                            animationPlayer.Play("Slide");
+                            animationPlayer.PlaybackSpeed = 0.0f;
+                            fxs["Slide"].Play();
+                        }
+
                     }
 
                     if (Input.IsActionJustPressed("ui_accept"))
@@ -108,7 +116,6 @@ public class Player : KinematicBody2D
                         animationPlayer.PlaybackSpeed = 2.5f;
                         fxs["Kick"].Play();
                     }
-
 
                     break;
                 }
@@ -129,7 +136,7 @@ public class Player : KinematicBody2D
                     velocity += gravity;
 
                     // Double Jump
-                   
+
                     if (chad)
                     {
                         if (Input.IsActionJustPressed("ui_up") && jumpCount < 2)
@@ -145,10 +152,9 @@ public class Player : KinematicBody2D
         }
 
     }
-
     private void Jump()
     {
-        jumpCount++; 
+        jumpCount++;
         state = playerState.jumping;
         gameLogic.speedMultiplier = 1.5f;
         velocity = jumpPower;
@@ -175,7 +181,7 @@ public class Player : KinematicBody2D
 
     private void StopJumping()
     {
-        jumpCount = 0; 
+        jumpCount = 0;
         fxs["Jump"].Stop();
         ToIdle();
     }
@@ -183,6 +189,17 @@ public class Player : KinematicBody2D
     private void StopKicking()
     {
         fxs["Kick"].Stop();
+
+        // Game Logic already checks if thot life <= 0 and de-incapacitates the player
+        if (incapacitated)
+        {
+            Node thot = GetParent().GetNode("EnemyTwitchThot");
+            if (thot != null)
+            {
+                gameLogic.DoDamageToEntity(damage, thot);
+            }
+
+        }
         ToIdle();
     }
 
@@ -240,16 +257,20 @@ public class Player : KinematicBody2D
         (chadNode.GetNode("Torso") as Sprite).Visible = true;
         animationPlayer = chadNode.GetNode("AnimationPlayer") as AnimationPlayer;
 
-        // More Stats
+        // More Life
         urgeBar.MaxValue *= 2d;
-        jumpPower *= 1.5f; 
-        gravity *= 1.2f; 
 
         // Music
         (GetParent().GetNode("Music").GetNode("Music") as AudioStreamPlayer2D).Stop();
         (GetParent().GetNode("Music").GetNode("MusicChad") as AudioStreamPlayer2D).Play();
 
         // Reset stuff
+        ResetState();
+
+    }
+
+    public void ResetState()
+    {
         switch (state)
         {
             case playerState.walking:
@@ -273,7 +294,28 @@ public class Player : KinematicBody2D
                     break;
                 }
         }
+    }
 
+
+    public void Incapacitate(bool incapacitated)
+    {
+        this.incapacitated = incapacitated;
+        if (incapacitated == false)
+        {
+            ResetState();
+        }
+        gameLogic.scrollSpeed += (incapacitated ? 50 : -50);
+        animationPlayer.PlaybackSpeed = ((incapacitated) ? 0.8f : 0.5f);
+    }
+
+    public Vector2 GetCurrentPosition()
+    {
+        return (GetNode("CollisionShape2D") as CollisionShape2D).GlobalPosition;
+    }
+
+    public Vector2 GetKickPosition()
+    {
+        return (GetNode("Kick").GetNode("CollisionShape2D") as CollisionShape2D).GlobalPosition;
     }
 
 }

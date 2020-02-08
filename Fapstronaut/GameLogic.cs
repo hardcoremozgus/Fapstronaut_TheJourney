@@ -1,14 +1,15 @@
 using Godot;
 using System;
 
-public enum EntityTypes { COOMER, SOCIALMEDIA, POSTER, MAXTYPES };
+public enum EntityTypes { COOMER, SOCIALMEDIA, POSTER, TWITCHTHOT, MAXTYPES };
 public class GameLogic : Node2D
 {
     // Declare member variables here. Examples:
     // private int a = 2;
     // private string b = "text";
     public float scrollSpeed = -200f;
-
+   
+    public int activeThots = 0; // very dirty
     public float PI = 3.14159f;
 
     public float levelUpPercentatge = 0.05f,
@@ -26,9 +27,10 @@ public class GameLogic : Node2D
     {
         urgeBar = GetChild(4).GetChild(0).GetChild(0) as TextureProgress;
         spawnTimers = new Tuple<String, float, float>[(int)EntityTypes.MAXTYPES];
-        spawnTimers[0] = Tuple.Create("res://EnemyCoomer.tscn", 8f, 0f);
+        spawnTimers[0] = Tuple.Create("res://EnemyCoomer.tscn", 10f, 0f);
         spawnTimers[1] = Tuple.Create("res://EnemySocialMedia.tscn", 2f, 0f);
-        spawnTimers[2] = Tuple.Create("res://Poster.tscn", 5f, 0f);
+        spawnTimers[2] = Tuple.Create("res://Poster.tscn", 30f, 0f);
+        spawnTimers[3] = Tuple.Create("res://EnemyTwitchThot.tscn", 5f, 0f);
     }
 
     //  // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -75,6 +77,17 @@ public class GameLogic : Node2D
                 // TODO: death
             }
         }
+        else if(entity.Name == "EnemyTwitchThot")
+        {
+            var enemy = entity as EnemyTwitchThot; 
+            float life = enemy.life -= damage;
+            if(life <= 0)
+            {
+                activeThots--; 
+                (GetNode("Player") as Player).Incapacitate(false); 
+                enemy.QueueFree(); 
+            }
+        }
     }
 
     public float GetCurrentSpeed()
@@ -87,9 +100,9 @@ public class GameLogic : Node2D
         currentLevelUpPercentage += levelUpPercentatge;
 
         Player player = (GetChild(0) as Player);
-        if (player.postersArrived > 10)
+        if (player.brainFog <= 0)
         {
-            GetTree().Quit(); // TODO: a win screen
+            GetTree().Quit(); // TODO: a win screen (announcing you won because of not brain fog, after beating bosses)
             return;
         }
 
@@ -107,5 +120,6 @@ public class GameLogic : Node2D
         }
 
     }
+
 
 }
