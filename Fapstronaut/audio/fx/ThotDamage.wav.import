@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/ThotDamage.wav-c51e0e437e92d0f09e679715acb1af8b.sample"
+
+[deps]
+
+source_file="res://audio/fx/ThotDamage.wav"
+dest_files=[ "res://.import/ThotDamage.wav-c51e0e437e92d0f09e679715acb1af8b.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

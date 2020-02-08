@@ -108,6 +108,10 @@ public class Player : KinematicBody2D
                         }
 
                     }
+                    else
+                    {
+                        animationPlayer.PlaybackSpeed = 0.5f; 
+                    }
 
                     if (Input.IsActionJustPressed("ui_accept"))
                     {
@@ -305,7 +309,6 @@ public class Player : KinematicBody2D
             ResetState();
         }
         gameLogic.scrollSpeed += (incapacitated ? 50 : -50);
-        animationPlayer.PlaybackSpeed = ((incapacitated) ? 0.8f : 0.5f);
     }
 
     public Vector2 GetCurrentPosition()

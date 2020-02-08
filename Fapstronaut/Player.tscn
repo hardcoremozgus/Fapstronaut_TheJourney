@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://Player.cs" type="Script" id=1]
 [ext_resource path="res://sprites/virg/virg_0011_lfore.png" type="Texture" id=2]
@@ -28,6 +28,7 @@
 [ext_resource path="res://sprites/chad/chad_0007_LowerRightArm.png" type="Texture" id=26]
 [ext_resource path="res://sprites/chad/chad_0006_UpperRightArm.png" type="Texture" id=27]
 [ext_resource path="res://sprites/chad/chad_0000_lowerRightLeg.png" type="Texture" id=28]
+[ext_resource path="res://audio/fx/PlayerDamaged.wav" type="AudioStream" id=29]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 143.741
@@ -1911,6 +1912,9 @@ volume_db = 5.0
 
 [node name="Kick" type="AudioStreamPlayer2D" parent="Audio"]
 stream = ExtResource( 18 )
+
+[node name="Damaged" type="AudioStreamPlayer2D" parent="Audio"]
+stream = ExtResource( 29 )
 
 [node name="Chad" type="Node2D" parent="."]
 
