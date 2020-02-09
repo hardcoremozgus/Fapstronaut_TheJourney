@@ -37,16 +37,21 @@ public class GameLogic : Node2D
     {
         urgeBar = GetChild(4).GetChild(0).GetChild(0).GetChild(0) as TextureProgress;
         spawnTimers = new Tuple<String, float, float>[(int)EntityTypes.MAXTYPES];
-        spawnTimers[0] = Tuple.Create("res://EnemyCoomer.tscn", 15f, 0f);
-        spawnTimers[1] = Tuple.Create("res://EnemySocialMedia.tscn", 3.5f, 0f);
+        spawnTimers[0] = Tuple.Create("res://EnemyCoomer.tscn", 12f, 0f);
+        spawnTimers[1] = Tuple.Create("res://EnemySocialMedia.tscn", 3f, 0f);
         spawnTimers[2] = Tuple.Create("res://Poster.tscn", 30f, 0f);
-        spawnTimers[3] = Tuple.Create("res://EnemyTwitchThot.tscn", 20f, 0f);
+        spawnTimers[3] = Tuple.Create("res://EnemyTwitchThot.tscn", 18f, 0f);
     }
 
     //  // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(float delta)
     {
-    
+
+        if (Input.IsActionJustPressed("ui_page_up"))
+        {
+            BossTrigger(true, true);
+        }
+
         if (spawnsStopped == false)
         {
             SpawnEnemyLogic(delta);
@@ -103,9 +108,9 @@ public class GameLogic : Node2D
             case "Player":
                 {
                     (entity as Player).urges += damage;
-                    if ((entity as Player).urges >= 100)
+                    if ((entity as Player).urges >= (entity as Player).urgeBar.MaxValue)
                     {
-                        Finish(false); 
+                        Finish(false);
                     }
                     break;
                 }
@@ -144,7 +149,7 @@ public class GameLogic : Node2D
                         BossTrigger(false, false);
                         (enemy.GetNode("Audio").GetNode("Theme") as AudioStreamPlayer2D).Stop();
                         enemy.QueueFree();
-                        Finish(true); 
+                        Finish(true);
                     }
 
                     break;
@@ -210,7 +215,8 @@ public class GameLogic : Node2D
             {
                 this.jewishBoss = true;
                 spawnsStopped = true;
-                (GetNode("Player") as Player).horziontalLocked = false; 
+                (GetNode("Player") as Player).horziontalLocked = false;
+                SpawnHelper(); 
             }
             var music = GetNode("Music").GetNode("MusicChad") as AudioStreamPlayer2D;
             music.Stop();
@@ -232,7 +238,7 @@ public class GameLogic : Node2D
                 this.jewishBoss = false;
                 spawnsStopped = false;
             }
-            
+
             var music = GetNode("Music").GetNode("MusicChad") as AudioStreamPlayer2D;
             music.Play();
             music.Seek(previousMusicTime);
@@ -242,13 +248,26 @@ public class GameLogic : Node2D
 
     }
 
- 
-  
+
+
     private void Finish(bool win)
     {
-        (GetParent() as MainScene).wonLastTime = win; 
-        AddScene("res://WinLose.tscn", GetParent()); 
-        QueueFree(); 
+        (GetParent() as MainScene).wonLastTime = win;
+        AddScene("res://WinLose.tscn", GetParent());
+        QueueFree();
+    }
+
+
+
+    public void SpawnHelper(String text = "empty")
+    {
+        var scene = (PackedScene)ResourceLoader.Load("res://Helper.tscn");
+        var instance = scene.Instance() as Helper;
+        if(text != "empty")
+        {
+             (instance.GetNode("Control").GetNode("Label") as Label).Text = text; 
+        }
+        AddChild(instance as Node);
     }
 
 }

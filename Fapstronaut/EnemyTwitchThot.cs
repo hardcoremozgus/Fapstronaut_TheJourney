@@ -10,7 +10,7 @@ public class EnemyTwitchThot : Node2D
     float close = 10f;
     float speed = 100f;
 
-    public float life = 60f; 
+    public float life = 100f; 
     float damageTime = 1f, damageCurrentTime = 0f; 
 
     // Called when the node enters the scene tree for the first time.

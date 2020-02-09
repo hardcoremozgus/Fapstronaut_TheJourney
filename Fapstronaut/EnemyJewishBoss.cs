@@ -13,8 +13,8 @@ public class EnemyJewishBoss : Node2D
     public float life = 1000f;
     float phaseLife;
 
-    float launchTime = 5f, currentLaunchTime = 0f,
-    mineLaunchTime = 4f, currentMineLaunchTime = 0f;
+    float launchTime = 4f, currentLaunchTime = 0f,
+    mineLaunchTime = 3f, currentMineLaunchTime = 0f;
 
     JewishBossPhase phase;
 

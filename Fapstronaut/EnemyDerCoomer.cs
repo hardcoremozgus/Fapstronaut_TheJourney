@@ -16,7 +16,7 @@ public class EnemyDerCoomer : Node2D
 
     float damage = 50f;
 
-    float animationSpeedMulti = 2f; 
+    float animationSpeedMulti = 1.05f; 
 
     public float life = 200f;
 
@@ -68,7 +68,6 @@ public class EnemyDerCoomer : Node2D
                         GD.Print("Player hits Der Coomer!");
                         cancelPlayer = false;
                         sprite.SpeedScale *= animationSpeedMulti; // harder each time
-                        DoHide(true); 
                     }
                   
                     break;

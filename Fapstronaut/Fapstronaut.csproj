@@ -61,6 +61,7 @@
     <Compile Include="EnemySocialMedia.cs" />
     <Compile Include="EnemyTwitchThot.cs" />
     <Compile Include="GameLogic.cs" />
+    <Compile Include="Helper.cs" />
     <Compile Include="MainScene.cs" />
     <Compile Include="Nose.cs" />
     <Compile Include="NoseMine.cs" />

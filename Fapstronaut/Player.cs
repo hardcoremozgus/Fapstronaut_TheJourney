@@ -25,7 +25,7 @@ public class Player : KinematicBody2D
     public float damage = 30f;
     public float currentslideTime = 0f, slideTime = 1f;
     public float urgeHeal = 3f;  // TODO: decrease brain fog with time, and thus upgrade this at least
-    private TextureProgress urgeBar, brainFogBar;
+    public TextureProgress urgeBar, brainFogBar;
 
     public playerState state;
     float slideHeight = 215;
@@ -340,6 +340,9 @@ public class Player : KinematicBody2D
 
         // Reset stuff
         ResetState();
+
+        // A UI helper
+        gameLogic.SpawnHelper("Chads can double jump! Go try it!"); 
 
     }
 
