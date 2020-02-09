@@ -5,12 +5,13 @@ A 2D endless runner to test the Godot Engine while parodying the pornography ind
 https://github.com/harcoremozgus
 
 ### Version
-0.5
+1.0.a
 
 ### CONTROLS
 W) Jump (double jump if "chad")
 S) Slide
-K) Kick
+A) and D) Horizontal movement (final boss only)
+K) or SPACE) Kick
 
 ### Life 
 There are two bars:
@@ -26,15 +27,6 @@ Every x time a poster appears, it affects:
 > Enemies: spawn time, stats
 In the 6th month, you become a chad.
 You can now double jump.
-
-### Enemies
-> Social media: horizontal movement. Top, 
-middle or bottom of the screen. They can 
-come in pairs if you are a chad.
-You can destroy the middle ones by kicking.
-> Coomer: swings his arm.
-> Twitch Thot: gets to you and you can't jump
-or slide. Kick it various times to break free. 
 
 ### License
 MIT License
