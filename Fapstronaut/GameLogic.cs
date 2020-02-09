@@ -29,9 +29,9 @@ public class GameLogic : Node2D
 
     int spawnEnemyIndex = 666;
 
-    public bool derCoomer = false;
+    public bool derCoomer = false, jewishBoss = false;
 
-    public bool IsDerCoomerActive() => derCoomer; 
+    public bool IsDerCoomerActive() => derCoomer;
 
     public override void _Ready()
     {
@@ -42,17 +42,16 @@ public class GameLogic : Node2D
         spawnTimers[2] = Tuple.Create("res://Poster.tscn", 30f, 0f);
         spawnTimers[3] = Tuple.Create("res://EnemyTwitchThot.tscn", 20f, 0f);
     }
-   
+
     //  // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(float delta)
     {
-        /*
+        
         // Debug
         if (Input.IsActionJustPressed("ui_page_up"))
         {
-            BossDerCoomerTrigger(true);
+            BossTrigger(true, false);
         }
-        */
 
         if (spawnsStopped == false)
         {
@@ -134,7 +133,21 @@ public class GameLogic : Node2D
                     float life = enemy.life -= damage;
                     if (life <= 0)
                     {
-                        BossDerCoomerTrigger(false);
+                        BossTrigger(false, true);
+                        (enemy.GetNode("Audio").GetNode("Theme") as AudioStreamPlayer2D).Stop();
+                        enemy.QueueFree();
+                    }
+
+                    break;
+                }
+
+            case "EnemyJewishBoss":
+                {
+                    var enemy = entity as EnemyJewishBoss;
+                    float life = enemy.life -= damage;
+                    if (life <= 0)
+                    {
+                        BossTrigger(false, false);
                         (enemy.GetNode("Audio").GetNode("Theme") as AudioStreamPlayer2D).Stop();
                         enemy.QueueFree();
                     }
@@ -175,49 +188,66 @@ public class GameLogic : Node2D
         // Check for boss trigger
         if (player.postersArrived == 7)  // 2 Years = Der Coomer boss
         {
-            BossDerCoomerTrigger(true);
+            BossTrigger(true, true);
+        }
+        else if (player.postersArrived == 10)  // 5 Years = Jewish boss
+        {
+            BossTrigger(true, false);
         }
 
     }
 
 
 
-    public void BossDerCoomerTrigger(bool spawn)
+    public void BossTrigger(bool spawn, bool derCoomer)
     {
         if (spawn)
         {
-            derCoomer = true;
 
-            // TODO: do this with chad music instead
-            var music = GetNode("Music").GetNode("MusicChad") as AudioStreamPlayer2D;
+            if (derCoomer)
+            {
+                derCoomer = true;
+                spawnEnemyIndex = 1;
+                (GetNode("Dark") as Dark).Darken(0.6f, 0.5f);
+            }
+
+            else
+            {
+                jewishBoss = true;
+                spawnsStopped = true;
+                (GetNode("Player") as Player).horziontalLocked = false; 
+            }
+
+            // TODO: change "Music" with "MusicChad"
+            var music = GetNode("Music").GetNode("Music") as AudioStreamPlayer2D;
             music.Stop();
             previousMusicTime = music.GetPlaybackPosition();
-
-            spawnEnemyIndex = 1;
-            AddScene("res://EnemyDerCoomer.tscn", this);
-        //    (GetNode("Dark") as Dark).Darken(0.95f, 0.5f);
+            String scene = (derCoomer) ? "res://EnemyDerCoomer.tscn" : "res://EnemyJewishBoss.tscn";
+            AddScene(scene, this);
 
         }
         else
         {
-            derCoomer = false;
-
-            // TODO: do this with chad music instead
-            var music = GetNode("Music").GetNode("MusicChad") as AudioStreamPlayer2D;
+            if (derCoomer)
+            {
+                derCoomer = false;
+                spawnEnemyIndex = 666;
+                (GetNode("Dark") as Dark).Darken(0.6f, -0.5f);
+            }
+            else
+            {
+                jewishBoss = false;
+                spawnsStopped = false;
+            }
+            
+            // TODO: change "Music" with "MusicChad"
+            var music = GetNode("Music").GetNode("Music") as AudioStreamPlayer2D;
             music.Play();
             music.Seek(previousMusicTime);
-
-            spawnEnemyIndex = 666;
-       //     (GetNode("Dark") as Dark).Darken(0.95f, -0.5f);
-
 
 
         }
 
-
     }
-
-
-
 
 }

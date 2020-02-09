@@ -10,14 +10,16 @@ public class Player : KinematicBody2D
 
     float gravity = 20f;
     float jumpPower = -550f;
-    float velocity = 0.0f;
+    Vector2 velocity;
     Vector2 floor = new Vector2(0, -1),
     idlePos = new Vector2(0, 0);
     public double urges = 0f;
     public float brainFog = 100f;
 
     public bool incapacitated = false;
+    public bool horziontalLocked = true;
 
+    float horizontalOffset = 300f;
     public bool chad = false;
     uint jumpCount = 0;
     public float damage = 30f;
@@ -30,7 +32,7 @@ public class Player : KinematicBody2D
     private GameLogic gameLogic;
     private CollisionShape2D collider, kick;
 
-    public bool godMode = false; 
+    public bool godMode = false;
     private Dictionary<String, AudioStreamPlayer2D> fxs;
 
     public uint postersArrived = 0;
@@ -39,6 +41,7 @@ public class Player : KinematicBody2D
     public override void _Ready()
     {
         SetPhysicsProcess(true);
+        velocity = new Vector2(0f, 0f);
         animationPlayer = GetNode("AnimationPlayer") as AnimationPlayer;
         animationPlayer.Play("run");
         animationPlayer.PlaybackSpeed = 0.8f;
@@ -71,18 +74,17 @@ public class Player : KinematicBody2D
         }
 
         // First move and slide, it will update the IsOnFloor() logic
-        MoveAndSlide(new Vector2(0, velocity), floor);
+        MoveAndSlide(velocity, floor);
 
         // Common in all floor states: still have some "y" speed so kinematic body works properly and detects floor
         if (IsOnFloor())
         {
-            velocity = 0.1f;
+            velocity.y = 0.1f;
             if (state == playerState.jumping)
             {
                 StopJumping();
             }
         }
-
 
         // State
         switch (state)
@@ -94,7 +96,7 @@ public class Player : KinematicBody2D
                         if (Input.IsActionJustPressed("ui_up"))
                         {
                             Jump();
-                            break; 
+                            break;
                         }
 
                         if (Input.IsActionJustPressed("ui_down"))
@@ -106,13 +108,53 @@ public class Player : KinematicBody2D
                             animationPlayer.Play("Slide");
                             animationPlayer.PlaybackSpeed = 0.0f;
                             fxs["Slide"].Play();
-                            break; 
+                            break;
+                        }
+
+                        if (horziontalLocked == false)
+                        {
+                            // Screen limits
+                            var pivotNode = (GetNode("CollisionShape2D") as CollisionShape2D);
+                            var relativePosition = pivotNode.GetGlobalTransformWithCanvas().origin;
+
+                            if (relativePosition.x > (GetViewportRect().Size.x - horizontalOffset))
+                            {
+                                velocity.x = 0f;
+                                Translate(new Vector2(-(relativePosition.x - (GetViewportRect().Size.x - horizontalOffset)), 0));
+                                break;
+                            }
+                            else if (relativePosition.x < horizontalOffset)
+                            {
+                                velocity.x = 0f;
+                                Translate(new Vector2(horizontalOffset - relativePosition.x, 0));
+                                break;
+                            }
+
+                            // Movement
+                            if (Input.IsActionPressed("ui_right"))
+                            {
+                                velocity.x = 200f;
+                                break;
+                            }
+
+                            if (Input.IsActionPressed("ui_left"))
+                            {
+                                velocity.x = -200f;
+                                break;
+                            }
+
+
+                            if (Input.IsActionJustReleased("ui_right") || Input.IsActionJustReleased("ui_left"))
+                            {
+                                velocity.x = 0f;
+                                break;
+                            }
                         }
 
                     }
                     else
                     {
-                        animationPlayer.PlaybackSpeed = 0.5f; 
+                        animationPlayer.PlaybackSpeed = 0.5f;
                     }
 
                     if (Input.IsActionJustPressed("ui_accept"))
@@ -121,7 +163,7 @@ public class Player : KinematicBody2D
                         animationPlayer.Play("Kick");
                         animationPlayer.PlaybackSpeed = 1.5f;
                         fxs["Kick"].Play();
-                        break; 
+                        break;
                     }
 
                     break;
@@ -140,7 +182,7 @@ public class Player : KinematicBody2D
                 {
                     gameLogic.speedMultiplier = 2f;
                     animationPlayer.PlaybackSpeed = 0.0f;
-                    velocity += gravity;
+                    velocity.y += gravity;
 
                     // Double Jump
 
@@ -164,7 +206,7 @@ public class Player : KinematicBody2D
         jumpCount++;
         state = playerState.jumping;
         gameLogic.speedMultiplier = 1.5f;
-        velocity = jumpPower;
+        velocity.y = jumpPower;
         fxs["Jump"].Play();
     }
 
@@ -207,6 +249,17 @@ public class Player : KinematicBody2D
             }
 
         }
+        // If jewish boss (I now this is very dirty)
+
+        if(gameLogic.jewishBoss == true)
+        {
+            var jewishBoss = gameLogic.GetNode("EnemyJewishBoss") as EnemyJewishBoss; 
+            if(jewishBoss.playerInside)
+            {
+                jewishBoss.RecieveDamage(); 
+            }
+        }
+
         ToIdle();
     }
 
@@ -217,7 +270,16 @@ public class Player : KinematicBody2D
         state = playerState.walking;
         animationPlayer.Play("run");
         gameLogic.speedMultiplier = 1f;
-        GlobalPosition = idlePos;
+
+        if (horziontalLocked)
+        {
+            GlobalPosition = idlePos;
+        }
+        else
+        {
+            GlobalPosition = new Vector2(GlobalPosition.x, idlePos.y);
+        }
+
     }
 
     private void Heal(double delta)
@@ -239,7 +301,7 @@ public class Player : KinematicBody2D
     public void LevelUp()
     {
         float percentatge = (GetParent() as GameLogic).levelUpPercentatge;
-        brainFogBar.Value = (brainFogBar.Value - brainFogBar.MaxValue * 1/5f); // 5 is the n times where you become chad
+        brainFogBar.Value = (brainFogBar.Value - brainFogBar.MaxValue * 1 / 5f); // 5 is the n times where you become chad
         jumpPower += (jumpPower * percentatge);
         slideTime += (slideTime * percentatge);
         damage += (damage * percentatge);

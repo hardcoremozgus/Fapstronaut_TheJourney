@@ -57,9 +57,11 @@
     <Compile Include="DeathLogic.cs" />
     <Compile Include="EnemyCoomer.cs" />
     <Compile Include="EnemyDerCoomer.cs" />
+    <Compile Include="EnemyJewishBoss.cs" />
     <Compile Include="EnemySocialMedia.cs" />
     <Compile Include="EnemyTwitchThot.cs" />
     <Compile Include="GameLogic.cs" />
+    <Compile Include="Nose.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Poster.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

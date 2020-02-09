@@ -1,0 +1,51 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://EnemyJewishBoss.cs" type="Script" id=1]
+[ext_resource path="res://audio/The Last Stand.ogg" type="AudioStream" id=2]
+[ext_resource path="res://sprites/jewishBoss/jewishCrop.png" type="Texture" id=3]
+[ext_resource path="res://sprites/jewishBoss/Damaged.png" type="Texture" id=4]
+[ext_resource path="res://audio/fx/JewishDamaged.wav" type="AudioStream" id=5]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 3 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 4 ) ],
+"loop": false,
+"name": "damaged",
+"speed": 5.0
+} ]
+
+[node name="EnemyJewishBoss" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Head" type="Area2D" parent="."]
+
+[node name="Sprite" type="AnimatedSprite" parent="Head"]
+position = Vector2( 937.515, 282.056 )
+scale = Vector2( 1.09146, 1.09146 )
+z_index = -6
+z_as_relative = false
+frames = SubResource( 1 )
+animation = "idle"
+
+[node name="Collision" type="CollisionPolygon2D" parent="Head"]
+position = Vector2( 937.515, 282.056 )
+scale = Vector2( 1.09146, 1.09146 )
+polygon = PoolVector2Array( 57.5, -209.8, 81.5, -206.8, 81.5, -205.3, 116.5, -189.3, 116.5, -187.8, 145.5, -158.8, 145.5, -156.4, 159.5, -126.4, 159.5, -107, 166.8, -107, 185.5, -102, 185.5, -70.9, 166.5, -48.3, 166.5, -47.5, 173.5, -34.5, 173.5, -25, 172.2, -25, 167.2, 5, 165.5, 5, 154.5, 18.7, 154.5, 34.3, 152.9, 39, 151.6, 39, 143.6, 52, 141, 52, 135.4, 54.8, 140.5, 59.1, 140.5, 69, 139.2, 69, 125.2, 164, 123.5, 164, 94.5, 203, 92.1, 203, 62.1, 223, -9.5, 223, -39.5, 192.8, -39.5, 190.7, -50.5, 176.7, -50.5, 169.7, -64.5, 150.7, -64.5, 148.4, -71.5, 133.4, -71.5, 128.2, -68.8, 125.5, -70.9, 123.5, -69.8, 121, -68.3, 121, -64.3, 117, -69.5, 111.8, -69.5, 104, -72.1, 104, -90.5, 92.1, -90.5, 85.9, -89.7, 76.3, -102.5, 79.5, -102.5, 81, -117.9, 92, -123.2, 92, -131.5, 93.4, -131.5, 92, -137.5, 92, -137.5, 89.9, -143.5, 84.9, -143.5, 82, -145.7, 63, -144.3, 63, -139.3, 14, -137.5, 14, -117.5, -13.6, -117.5, -14.7, -125.5, -33.6, -125.5, -38.7, -128.9, -58, -126.8, -58, -122.5, -67.4, -122.5, -71.2, -116.1, -100, -114.8, -100, -102.5, -122.6, -102.5, -129, -100.5, -129, -78.5, -158, -77.2, -158, -61.5, -171.9, -61.5, -173.8, -56.5, -178.8, -56.5, -185.5, -54.7, -189, -52.9, -189, -40.5, -193.4, -40.5, -195.4, -33.8, -210, -31.4, -210, 6.5, -206.2, 19.5, -209.5, 19.5, -211, 57.5, -211 )
+
+[node name="Audio" type="Node2D" parent="."]
+
+[node name="Theme" type="AudioStreamPlayer2D" parent="Audio"]
+stream = ExtResource( 2 )
+volume_db = -20.0
+autoplay = true
+
+[node name="Damaged" type="AudioStreamPlayer2D" parent="Audio"]
+stream = ExtResource( 5 )
+[connection signal="body_entered" from="Head" to="." method="OnCollision"]
+[connection signal="body_exited" from="Head" to="." method="OnCollisionExit"]
+[connection signal="animation_finished" from="Head/Sprite" to="." method="OnAnimationFinished"]
