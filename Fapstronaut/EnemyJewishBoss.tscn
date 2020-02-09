@@ -1,10 +1,12 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://EnemyJewishBoss.cs" type="Script" id=1]
 [ext_resource path="res://audio/The Last Stand.ogg" type="AudioStream" id=2]
 [ext_resource path="res://sprites/jewishBoss/jewishCrop.png" type="Texture" id=3]
 [ext_resource path="res://sprites/jewishBoss/Damaged.png" type="Texture" id=4]
 [ext_resource path="res://audio/fx/JewishDamaged.wav" type="AudioStream" id=5]
+[ext_resource path="res://sprites/UI/bar/progress.png" type="Texture" id=6]
+[ext_resource path="res://audio/fx/JewishBossPhase.wav" type="AudioStream" id=7]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -46,6 +48,18 @@ autoplay = true
 
 [node name="Damaged" type="AudioStreamPlayer2D" parent="Audio"]
 stream = ExtResource( 5 )
+
+[node name="Phase" type="AudioStreamPlayer2D" parent="Audio"]
+stream = ExtResource( 7 )
+autoplay = true
+
+[node name="Light2D" type="Light2D" parent="."]
+position = Vector2( 512, 300 )
+scale = Vector2( 10, 50 )
+texture = ExtResource( 6 )
+color = Color( 1, 0, 0, 1 )
+shadow_enabled = true
+shadow_color = Color( 0.45098, 0, 0, 0 )
 [connection signal="body_entered" from="Head" to="." method="OnCollision"]
 [connection signal="body_exited" from="Head" to="." method="OnCollisionExit"]
 [connection signal="animation_finished" from="Head/Sprite" to="." method="OnAnimationFinished"]

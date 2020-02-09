@@ -14,7 +14,7 @@ public class Nose : Area2D
 
     float scaleReduction = 0.1f;
 
-    float minimumScale = 0.5f;
+    float minimumScale = 0.4f;
     float damage = 50f;
 
     float currentTime = 0f, totalTime = 2f;
@@ -25,9 +25,7 @@ public class Nose : Area2D
     {
         gameLogic = GetParent() as GameLogic;
         player = gameLogic.GetNode("Player") as Player;
-        lastSpeed = new Vector2(-6f, -2f);
-
-        lastSpeed.y *= (new Random().Next(0,2) == 0) ? -1 : 1; 
+        lastSpeed = (new Random().Next(0,2) == 0) ? new Vector2(-6f, -2f) : new Vector2(-4f, 4f); 
 
     }
 

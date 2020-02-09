@@ -48,10 +48,10 @@ public class GameLogic : Node2D
     {
         
         // Debug
-        if (Input.IsActionJustPressed("ui_page_up"))
+        /*if (Input.IsActionJustPressed("ui_page_up"))
         {
             BossTrigger(true, false);
-        }
+        }*/
 
         if (spawnsStopped == false)
         {
@@ -206,20 +206,18 @@ public class GameLogic : Node2D
 
             if (derCoomer)
             {
-                derCoomer = true;
+                this.derCoomer = true;
                 spawnEnemyIndex = 1;
                 (GetNode("Dark") as Dark).Darken(0.6f, 0.5f);
             }
 
             else
             {
-                jewishBoss = true;
+                this.jewishBoss = true;
                 spawnsStopped = true;
                 (GetNode("Player") as Player).horziontalLocked = false; 
             }
-
-            // TODO: change "Music" with "MusicChad"
-            var music = GetNode("Music").GetNode("Music") as AudioStreamPlayer2D;
+            var music = GetNode("Music").GetNode("MusicChad") as AudioStreamPlayer2D;
             music.Stop();
             previousMusicTime = music.GetPlaybackPosition();
             String scene = (derCoomer) ? "res://EnemyDerCoomer.tscn" : "res://EnemyJewishBoss.tscn";
@@ -230,18 +228,17 @@ public class GameLogic : Node2D
         {
             if (derCoomer)
             {
-                derCoomer = false;
+                this.derCoomer = false;
                 spawnEnemyIndex = 666;
-                (GetNode("Dark") as Dark).Darken(0.6f, -0.5f);
+                (GetNode("Dark") as Dark).Darken(0f, -0.5f);
             }
             else
             {
-                jewishBoss = false;
+                this.jewishBoss = false;
                 spawnsStopped = false;
             }
             
-            // TODO: change "Music" with "MusicChad"
-            var music = GetNode("Music").GetNode("Music") as AudioStreamPlayer2D;
+            var music = GetNode("Music").GetNode("MusicChad") as AudioStreamPlayer2D;
             music.Play();
             music.Seek(previousMusicTime);
 

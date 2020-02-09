@@ -19,7 +19,7 @@ public class Player : KinematicBody2D
     public bool incapacitated = false;
     public bool horziontalLocked = true;
 
-    float horizontalOffset = 300f;
+    float horizontalOffset = 250f;
     public bool chad = false;
     uint jumpCount = 0;
     public float damage = 30f;
@@ -86,6 +86,7 @@ public class Player : KinematicBody2D
             }
         }
 
+
         // State
         switch (state)
         {
@@ -113,22 +114,6 @@ public class Player : KinematicBody2D
 
                         if (horziontalLocked == false)
                         {
-                            // Screen limits
-                            var pivotNode = (GetNode("CollisionShape2D") as CollisionShape2D);
-                            var relativePosition = pivotNode.GetGlobalTransformWithCanvas().origin;
-
-                            if (relativePosition.x > (GetViewportRect().Size.x - horizontalOffset))
-                            {
-                                velocity.x = 0f;
-                                Translate(new Vector2(-(relativePosition.x - (GetViewportRect().Size.x - horizontalOffset)), 0));
-                                break;
-                            }
-                            else if (relativePosition.x < horizontalOffset)
-                            {
-                                velocity.x = 0f;
-                                Translate(new Vector2(horizontalOffset - relativePosition.x, 0));
-                                break;
-                            }
 
                             // Movement
                             if (Input.IsActionPressed("ui_right"))
@@ -200,6 +185,26 @@ public class Player : KinematicBody2D
 
         }
 
+
+        // Horizontal movement cap
+        if (horziontalLocked == false)
+        {
+            // Screen limits
+            var pivotNode = (GetNode("CollisionShape2D") as CollisionShape2D);
+            var relativePosition = pivotNode.GetGlobalTransformWithCanvas().origin;
+
+            if (relativePosition.x > (GetViewportRect().Size.x - horizontalOffset))
+            {
+                velocity.x = 0f;
+                Translate(new Vector2(-(relativePosition.x - (GetViewportRect().Size.x - horizontalOffset)), 0));
+            }
+            else if (relativePosition.x < horizontalOffset)
+            {
+                velocity.x = 0f;
+                Translate(new Vector2(horizontalOffset - relativePosition.x, 0));
+            }
+        }
+
     }
     private void Jump()
     {
@@ -251,12 +256,12 @@ public class Player : KinematicBody2D
         }
         // If jewish boss (I now this is very dirty)
 
-        if(gameLogic.jewishBoss == true)
+        if (gameLogic.jewishBoss == true)
         {
-            var jewishBoss = gameLogic.GetNode("EnemyJewishBoss") as EnemyJewishBoss; 
-            if(jewishBoss.playerInside)
+            var jewishBoss = gameLogic.GetNode("EnemyJewishBoss") as EnemyJewishBoss;
+            if (jewishBoss.playerInside)
             {
-                jewishBoss.RecieveDamage(); 
+                jewishBoss.RecieveDamage();
             }
         }
 
@@ -327,7 +332,7 @@ public class Player : KinematicBody2D
         animationPlayer = chadNode.GetNode("AnimationPlayer") as AnimationPlayer;
 
         // More Life
-        urgeBar.MaxValue *= 2d;
+        urgeBar.MaxValue *= 3d;
 
         // Music
         (GetParent().GetNode("Music").GetNode("Music") as AudioStreamPlayer2D).Stop();

@@ -13,10 +13,12 @@ public class EnemyJewishBoss : Node2D
     public float life = 1000f;
     float phaseLife;
 
-    float launchTime = 5f, currentLaunchTime = 0f;
+    float launchTime = 5f, currentLaunchTime = 0f,
+    mineLaunchTime = 4f, currentMineLaunchTime = 0f;
 
     JewishBossPhase phase;
 
+    AudioStreamPlayer2D phaseAudio;
     Player player;
 
     GameLogic gameLogic;
@@ -29,6 +31,8 @@ public class EnemyJewishBoss : Node2D
         gameLogic = GetParent() as GameLogic;
         player = gameLogic.GetNode("Player") as Player;
         sprite = GetNode("Head").GetNode("Sprite") as AnimatedSprite;
+        phaseAudio = GetNode("Audio").GetNode("Phase") as AudioStreamPlayer2D;
+        phase = JewishBossPhase.LAUNCH;
     }
 
     //  // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -63,18 +67,35 @@ public class EnemyJewishBoss : Node2D
             gameLogic.AddScene("res://Nose.tscn", gameLogic as Node);
         }
 
-
-        if (life <= (totalLife - phaseLife))
+        if (phase == JewishBossPhase.LAUNCH)
         {
-            phase = JewishBossPhase.MINES;
+            if (life <= (totalLife - phaseLife))
+            {
+                phaseAudio.Play();
+                currentLaunchTime = 0;
+                phase = JewishBossPhase.MINES;
+            }
         }
+
     }
 
     private void MinesLogic(float delta)
     {
-        if (life <= (totalLife - 2 * phaseLife))
+
+        if ((currentMineLaunchTime += delta) >= mineLaunchTime)
         {
-            phase = JewishBossPhase.BOTH;
+            currentMineLaunchTime = 0;
+            gameLogic.AddScene("res://NoseMine.tscn", gameLogic as Node);
+        }
+
+        if (phase == JewishBossPhase.MINES)
+        {
+            if (life <= (totalLife - 2 * phaseLife))
+            {
+                phaseAudio.Play();
+                currentMineLaunchTime = 0;
+                phase = JewishBossPhase.BOTH;
+            }
         }
     }
 
@@ -105,9 +126,9 @@ public class EnemyJewishBoss : Node2D
 
     public void OnAnimationFinished()
     {
-        if(sprite.Animation == "damaged")
+        if (sprite.Animation == "damaged")
         {
-            sprite.Play("idle"); 
+            sprite.Play("idle");
         }
     }
 }

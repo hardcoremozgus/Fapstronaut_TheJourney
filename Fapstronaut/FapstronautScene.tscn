@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://sprites/Background.png" type="Texture" id=1]
 [ext_resource path="res://Scroll.cs" type="Script" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://audio/Turisas-Rasputin.ogg" type="AudioStream" id=6]
 [ext_resource path="res://sprites/UI/bar/Helper.png" type="Texture" id=7]
 [ext_resource path="res://Dark.cs" type="Script" id=8]
+[ext_resource path="res://audio/fx/JewishBossDeath.wav" type="AudioStream" id=9]
 [ext_resource path="res://audio/Green Day Boulevard Of Broken Dreams - [Official Video].ogg" type="AudioStream" id=18]
 [ext_resource path="res://GameLogic.cs" type="Script" id=20]
 
@@ -48,6 +49,10 @@ autoplay = true
 
 [node name="MusicChad" type="AudioStreamPlayer2D" parent="Music"]
 stream = ExtResource( 6 )
+volume_db = -10.0
+
+[node name="FinalBossDeath" type="AudioStreamPlayer2D" parent="Music"]
+stream = ExtResource( 9 )
 volume_db = -10.0
 
 [node name="InGameUI" parent="." instance=ExtResource( 5 )]
