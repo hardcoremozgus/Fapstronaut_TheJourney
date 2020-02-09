@@ -6,14 +6,14 @@ public class NoseMine : Area2D
     // Declare member variables here. Examples:
     // private int a = 2;
     float speed = 50f; 
-    int offset = 100; 
+    int Loffset = 400, Roffset = 50; 
     float damage = 20f; 
     Tuple<float, float> scaleRange; 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         scaleRange = Tuple.Create(0.5f, 1.5f); 
-        GlobalPosition = new Vector2(new Random().Next(offset, (int)GetViewportRect().Size.x - offset), 0);
+        GlobalPosition = new Vector2(new Random().Next(Loffset, (int)GetViewportRect().Size.x - Roffset), 0);
 
         var random = new RandomNumberGenerator(); 
         random.Seed = OS.GetTicksMsec(); 

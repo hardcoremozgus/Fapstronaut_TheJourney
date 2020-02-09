@@ -18,7 +18,7 @@ public class EnemyDerCoomer : Node2D
 
     float animationSpeedMulti = 2f; 
 
-    public float life = 150f;
+    public float life = 200f;
 
     int reactionFrames = 5;
     AnimatedSprite sprite;

@@ -46,13 +46,7 @@ public class GameLogic : Node2D
     //  // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(float delta)
     {
-        
-        // Debug
-        /*if (Input.IsActionJustPressed("ui_page_up"))
-        {
-            BossTrigger(true, false);
-        }*/
-
+    
         if (spawnsStopped == false)
         {
             SpawnEnemyLogic(delta);
@@ -111,7 +105,7 @@ public class GameLogic : Node2D
                     (entity as Player).urges += damage;
                     if ((entity as Player).urges >= 100)
                     {
-                        GetTree().Quit(); // TODO: a death screen 
+                        Finish(false); 
                     }
                     break;
                 }
@@ -150,6 +144,7 @@ public class GameLogic : Node2D
                         BossTrigger(false, false);
                         (enemy.GetNode("Audio").GetNode("Theme") as AudioStreamPlayer2D).Stop();
                         enemy.QueueFree();
+                        Finish(true); 
                     }
 
                     break;
@@ -245,6 +240,15 @@ public class GameLogic : Node2D
 
         }
 
+    }
+
+ 
+  
+    private void Finish(bool win)
+    {
+        (GetParent() as MainScene).wonLastTime = win; 
+        AddScene("res://WinLose.tscn", GetParent()); 
+        QueueFree(); 
     }
 
 }
