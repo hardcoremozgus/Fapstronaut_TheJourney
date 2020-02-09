@@ -23,6 +23,16 @@ public class GameLogic : Node2D
 
     public EntityTypes entityTypes;
 
+    float previousMusicTime = 0f;
+
+    bool spawnsStopped = false;
+
+    int spawnEnemyIndex = 666;
+
+    public bool derCoomer = false;
+
+    public bool IsDerCoomerActive() => derCoomer; 
+
     public override void _Ready()
     {
         urgeBar = GetChild(4).GetChild(0).GetChild(0).GetChild(0) as TextureProgress;
@@ -32,17 +42,34 @@ public class GameLogic : Node2D
         spawnTimers[2] = Tuple.Create("res://Poster.tscn", 30f, 0f);
         spawnTimers[3] = Tuple.Create("res://EnemyTwitchThot.tscn", 20f, 0f);
     }
-
+   
     //  // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(float delta)
     {
-        SpawnEnemyLogic(delta);
+        /*
+        // Debug
+        if (Input.IsActionJustPressed("ui_page_up"))
+        {
+            BossDerCoomerTrigger(true);
+        }
+        */
+
+        if (spawnsStopped == false)
+        {
+            SpawnEnemyLogic(delta);
+        }
+
     }
 
     void SpawnEnemyLogic(float delta)
     {
         for (int i = 0; i < spawnTimers.Length; ++i)
         {
+            if ((spawnEnemyIndex != 666) && (i != spawnEnemyIndex))
+            {
+                continue;
+            }
+
             var last = spawnTimers[i];
             float currentTime = last.Item3 + delta;
             if (currentTime >= last.Item2)
@@ -67,31 +94,55 @@ public class GameLogic : Node2D
 
     public void DoDamageToEntity(float damage, Node entity)
     {
+        GD.Print("Entity damaged!");
+
+        if ((entity.Name == "Player") && ((entity as Player).godMode))
+        {
+            return;
+        }
+
         // CAUTION: make sure there is an audio for new entities
         (entity.GetNode("Audio").GetNode("Damaged") as AudioStreamPlayer2D).Play();
 
-        if (entity.Name == "Player")
+
+        switch (entity.Name)
         {
-            
-            (entity as Player).urges += damage;
-            if ((entity as Player).urges >= 100)
-            {
-                GetTree().Quit(); // TODO: a death screen 
-            }
-        }
-        else if (entity.Name == "EnemyTwitchThot")
-        {
-            var enemy = entity as EnemyTwitchThot;
-            float life = enemy.life -= damage;
-            if (life <= 0)
-            {
-                activeThots--;
-                (GetNode("Player") as Player).Incapacitate(false);
-                enemy.QueueFree();
-            }
+            case "Player":
+                {
+                    (entity as Player).urges += damage;
+                    if ((entity as Player).urges >= 100)
+                    {
+                        GetTree().Quit(); // TODO: a death screen 
+                    }
+                    break;
+                }
+            case "EnemyTwitchThot":
+                {
+                    var enemy = entity as EnemyTwitchThot;
+                    float life = enemy.life -= damage;
+                    if (life <= 0)
+                    {
+                        activeThots--;
+                        (GetNode("Player") as Player).Incapacitate(false);
+                        enemy.QueueFree();
+                    }
+                    break;
+                }
+            case "EnemyDerCoomer":
+                {
+                    var enemy = entity as EnemyDerCoomer;
+                    float life = enemy.life -= damage;
+                    if (life <= 0)
+                    {
+                        BossDerCoomerTrigger(false);
+                        (enemy.GetNode("Audio").GetNode("Theme") as AudioStreamPlayer2D).Stop();
+                        enemy.QueueFree();
+                    }
+
+                    break;
+                }
         }
     }
-
     public float GetCurrentSpeed()
     {
         return scrollSpeed * speedMultiplier;
@@ -121,7 +172,52 @@ public class GameLogic : Node2D
             spawnTimers[i] = Tuple.Create(last.Item1, last.Item2 - last.Item2 * levelUpPercentatge, last.Item3);
         }
 
+        // Check for boss trigger
+        if (player.postersArrived == 7)  // 2 Years = Der Coomer boss
+        {
+            BossDerCoomerTrigger(true);
+        }
+
     }
+
+
+
+    public void BossDerCoomerTrigger(bool spawn)
+    {
+        if (spawn)
+        {
+            derCoomer = true;
+
+            // TODO: do this with chad music instead
+            var music = GetNode("Music").GetNode("MusicChad") as AudioStreamPlayer2D;
+            music.Stop();
+            previousMusicTime = music.GetPlaybackPosition();
+
+            spawnEnemyIndex = 1;
+            AddScene("res://EnemyDerCoomer.tscn", this);
+        //    (GetNode("Dark") as Dark).Darken(0.95f, 0.5f);
+
+        }
+        else
+        {
+            derCoomer = false;
+
+            // TODO: do this with chad music instead
+            var music = GetNode("Music").GetNode("MusicChad") as AudioStreamPlayer2D;
+            music.Play();
+            music.Seek(previousMusicTime);
+
+            spawnEnemyIndex = 666;
+       //     (GetNode("Dark") as Dark).Darken(0.95f, -0.5f);
+
+
+
+        }
+
+
+    }
+
+
 
 
 }

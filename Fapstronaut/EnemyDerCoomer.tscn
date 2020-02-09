@@ -1,0 +1,54 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://sprites/derCoomer/DerCoomer_0000_5.png" type="Texture" id=1]
+[ext_resource path="res://sprites/derCoomer/DerCoomer_0004_1.png" type="Texture" id=2]
+[ext_resource path="res://sprites/derCoomer/DerCoomer_0002_3.png" type="Texture" id=3]
+[ext_resource path="res://sprites/derCoomer/DerCoomer_0003_2.png" type="Texture" id=4]
+[ext_resource path="res://sprites/derCoomer/DerCoomer_0001_4.png" type="Texture" id=5]
+[ext_resource path="res://audio/DEgITx - Minefield (feat. Matty M.) [Melodic Death Metal].ogg" type="AudioStream" id=6]
+[ext_resource path="res://sprites/derCoomer/DerCoomer_0001_Capa-0.png" type="Texture" id=7]
+[ext_resource path="res://EnemyDerCoomer.cs" type="Script" id=8]
+[ext_resource path="res://audio/fx/DerCoomerAppear.wav" type="AudioStream" id=9]
+[ext_resource path="res://audio/fx/DerCoomerDamaged.wav" type="AudioStream" id=10]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 4 ), ExtResource( 3 ), ExtResource( 5 ), ExtResource( 1 ), ExtResource( 5 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 2 ) ],
+"loop": false,
+"name": "attack",
+"speed": 3.0
+} ]
+
+[node name="EnemyDerCoomer" type="Node2D"]
+z_index = -6
+z_as_relative = false
+script = ExtResource( 8 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 352.358, 360.246 )
+scale = Vector2( 0.434479, 0.434479 )
+frames = SubResource( 1 )
+animation = "attack"
+
+[node name="Light2D" type="Light2D" parent="."]
+position = Vector2( 352.358, 360.246 )
+scale = Vector2( 0.434, 0.434 )
+texture = ExtResource( 7 )
+energy = 1.5
+
+[node name="Audio" type="Node2D" parent="."]
+
+[node name="Theme" type="AudioStreamPlayer2D" parent="Audio"]
+stream = ExtResource( 6 )
+autoplay = true
+
+[node name="Appear" type="AudioStreamPlayer2D" parent="Audio"]
+position = Vector2( 352.358, 360.246 )
+scale = Vector2( 0.434, 0.434 )
+stream = ExtResource( 9 )
+volume_db = -15.0
+
+[node name="Damaged" type="AudioStreamPlayer2D" parent="Audio"]
+stream = ExtResource( 10 )
+volume_db = 20.0
+[connection signal="animation_finished" from="AnimatedSprite" to="." method="OnAnimationFinish"]

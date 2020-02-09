@@ -63,15 +63,25 @@ public class EnemySocialMedia : Node2D
         }
 
         // Sprite
-        int textValue = new Random().Next(0, 5);
-        String[] paths = new String[5];
-        paths[0] = "res://sprites/socialMedia/insta.png";
-        paths[1] = "res://sprites/socialMedia/tinder.png";
-        paths[2] = "res://sprites/socialMedia/4chan.png";
-        paths[3] = "res://sprites/socialMedia/snapchat.png";
-        paths[4] = "res://sprites/socialMedia/tiktok.png";
+        String path = "";
+        if ((GetParent() as GameLogic).IsDerCoomerActive())
+        {
+            path = "res://sprites/socialMedia/DerCoomerSocialMedia.png"; 
+        }
+        else
+        {
+            int textValue = new Random().Next(0, 5);
+            String[] paths = new String[5];
+            paths[0] = "res://sprites/socialMedia/insta.png";
+            paths[1] = "res://sprites/socialMedia/tinder.png";
+            paths[2] = "res://sprites/socialMedia/4chan.png";
+            paths[3] = "res://sprites/socialMedia/snapchat.png";
+            paths[4] = "res://sprites/socialMedia/tiktok.png";
+            path = paths[textValue];
+        }
+
         var sprite = GetChild(0) as Sprite;
-        sprite.Texture = ResourceLoader.Load(paths[textValue]) as Texture;
+        sprite.Texture = ResourceLoader.Load(path) as Texture;
 
         // Level
         extraSpeed = (extraSpeed + (GetParent() as GameLogic).currentLevelUpPercentage * extraSpeed);

@@ -22,7 +22,7 @@ public class Player : KinematicBody2D
     uint jumpCount = 0;
     public float damage = 30f;
     public float currentslideTime = 0f, slideTime = 1f;
-    public float urgeHeal = 5f;  // TODO: decrease brain fog with time, and thus upgrade this at least
+    public float urgeHeal = 3f;  // TODO: decrease brain fog with time, and thus upgrade this at least
     private TextureProgress urgeBar, brainFogBar;
 
     public playerState state;
@@ -30,6 +30,7 @@ public class Player : KinematicBody2D
     private GameLogic gameLogic;
     private CollisionShape2D collider, kick;
 
+    public bool godMode = false; 
     private Dictionary<String, AudioStreamPlayer2D> fxs;
 
     public uint postersArrived = 0;
@@ -63,12 +64,11 @@ public class Player : KinematicBody2D
 
     private void Move(float delta) // move and slide already takes into account delta
     {
-        /*
         // Debug
         if (Input.IsActionJustPressed("ui_cancel"))
         {
-            MakeChad();
-        }*/
+            godMode = !godMode;
+        }
 
         // First move and slide, it will update the IsOnFloor() logic
         MoveAndSlide(new Vector2(0, velocity), floor);
@@ -94,6 +94,7 @@ public class Player : KinematicBody2D
                         if (Input.IsActionJustPressed("ui_up"))
                         {
                             Jump();
+                            break; 
                         }
 
                         if (Input.IsActionJustPressed("ui_down"))
@@ -105,6 +106,7 @@ public class Player : KinematicBody2D
                             animationPlayer.Play("Slide");
                             animationPlayer.PlaybackSpeed = 0.0f;
                             fxs["Slide"].Play();
+                            break; 
                         }
 
                     }
@@ -117,8 +119,9 @@ public class Player : KinematicBody2D
                     {
                         state = playerState.kicking;
                         animationPlayer.Play("Kick");
-                        animationPlayer.PlaybackSpeed = 2.5f;
+                        animationPlayer.PlaybackSpeed = 1.5f;
                         fxs["Kick"].Play();
+                        break; 
                     }
 
                     break;
